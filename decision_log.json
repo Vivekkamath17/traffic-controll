@@ -1,0 +1,4502 @@
+[
+  {
+    "tick": 1,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane W \u2192 forcing EW-green for 30s",
+    "cost": 12500.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4337327
+  },
+  {
+    "tick": 2,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12500.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4337327
+  },
+  {
+    "tick": 3,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12502.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4353588
+  },
+  {
+    "tick": 4,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12504.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4353588
+  },
+  {
+    "tick": 5,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12506.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4353588
+  },
+  {
+    "tick": 6,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12512.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.436363
+  },
+  {
+    "tick": 7,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12515.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.436363
+  },
+  {
+    "tick": 8,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12520.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.436363
+  },
+  {
+    "tick": 9,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12525.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.436363
+  },
+  {
+    "tick": 10,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12533.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4373662
+  },
+  {
+    "tick": 11,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12339.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4373662
+  },
+  {
+    "tick": 12,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12550.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4383652
+  },
+  {
+    "tick": 13,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12557.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4383652
+  },
+  {
+    "tick": 14,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12364.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4383652
+  },
+  {
+    "tick": 15,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12384.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4383652
+  },
+  {
+    "tick": 16,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane W \u2192 forcing EW-green for 30s",
+    "cost": 12592.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4383652
+  },
+  {
+    "tick": 17,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12600.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.439363
+  },
+  {
+    "tick": 18,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 124.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.439363
+  },
+  {
+    "tick": 19,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 162.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.439363
+  },
+  {
+    "tick": 20,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 173.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.439363
+  },
+  {
+    "tick": 21,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 184.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4405818
+  },
+  {
+    "tick": 22,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 210.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4405818
+  },
+  {
+    "tick": 23,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 275.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4405818
+  },
+  {
+    "tick": 24,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 307.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4405818
+  },
+  {
+    "tick": 25,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 346.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4415853
+  },
+  {
+    "tick": 26,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 363.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4415853
+  },
+  {
+    "tick": 27,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 400.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4415853
+  },
+  {
+    "tick": 28,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 460.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4420896
+  },
+  {
+    "tick": 29,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 480.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4420896
+  },
+  {
+    "tick": 30,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 528.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4420896
+  },
+  {
+    "tick": 31,
+    "algorithm": "ASTAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 573.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.443094
+  },
+  {
+    "tick": 32,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -2982.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.443094
+  },
+  {
+    "tick": 33,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane E \u2192 forcing EW-green for 30s",
+    "cost": 10376.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 34,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12788.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 35,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12800.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 36,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12841.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 37,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12905.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 38,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12920.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4441335
+  },
+  {
+    "tick": 39,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12935.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4456387
+  },
+  {
+    "tick": 40,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12950.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4456387
+  },
+  {
+    "tick": 41,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12965.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4456387
+  },
+  {
+    "tick": 42,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12980.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 43,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 12995.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 44,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13042.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 45,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13058.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 46,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13109.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 47,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13126.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 48,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane E \u2192 forcing EW-green for 30s",
+    "cost": 13266.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 49,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13398.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4473124
+  },
+  {
+    "tick": 50,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13464.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4488504
+  },
+  {
+    "tick": 51,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13532.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4498582
+  },
+  {
+    "tick": 52,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13557.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4498582
+  },
+  {
+    "tick": 53,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13716.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4498582
+  },
+  {
+    "tick": 54,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13791.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4498582
+  },
+  {
+    "tick": 55,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13820.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4498582
+  },
+  {
+    "tick": 56,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13849.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4512646
+  },
+  {
+    "tick": 57,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 13928.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4512646
+  },
+  {
+    "tick": 58,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14004.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4512646
+  },
+  {
+    "tick": 59,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14035.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4522722
+  },
+  {
+    "tick": 60,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14115.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4522722
+  },
+  {
+    "tick": 61,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14147.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 62,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14179.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 63,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane E \u2192 forcing EW-green for 30s",
+    "cost": 14211.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 64,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14243.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 65,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14333.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 66,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14425.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 67,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 14459.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 68,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 1993.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4532716
+  },
+  {
+    "tick": 69,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2027.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4547668
+  },
+  {
+    "tick": 70,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2061.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4547668
+  },
+  {
+    "tick": 71,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2159.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4557757
+  },
+  {
+    "tick": 72,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2194.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4557757
+  },
+  {
+    "tick": 73,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2229.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4557757
+  },
+  {
+    "tick": 74,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2264.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4557757
+  },
+  {
+    "tick": 75,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2362.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4557757
+  },
+  {
+    "tick": 76,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2532.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.456772
+  },
+  {
+    "tick": 77,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 2635.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.456772
+  },
+  {
+    "tick": 78,
+    "algorithm": "BEAM",
+    "action": "SWITCH_PHASE",
+    "reason": "High congestion \u2192 Beam Search (k=6)",
+    "cost": 2741.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.457775
+  },
+  {
+    "tick": 79,
+    "algorithm": "BEAM",
+    "action": "KEEP_PHASE",
+    "reason": "High congestion \u2192 Beam Search (k=6)",
+    "cost": -4781.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.457775
+  },
+  {
+    "tick": 80,
+    "algorithm": "BEAM",
+    "action": "KEEP_PHASE",
+    "reason": "High congestion \u2192 Beam Search (k=6)",
+    "cost": -4302.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.457775
+  },
+  {
+    "tick": 81,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -3916.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4587712
+  },
+  {
+    "tick": 82,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -3270.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4587712
+  },
+  {
+    "tick": 83,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -2747.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4587712
+  },
+  {
+    "tick": 84,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1940.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4587712
+  },
+  {
+    "tick": 85,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1801.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4587712
+  },
+  {
+    "tick": 86,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1662.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.460357
+  },
+  {
+    "tick": 87,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1239.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.460357
+  },
+  {
+    "tick": 88,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -954.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.460357
+  },
+  {
+    "tick": 89,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -787.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.460357
+  },
+  {
+    "tick": 90,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -328.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4613655
+  },
+  {
+    "tick": 91,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -163.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4623635
+  },
+  {
+    "tick": 92,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 142.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4633646
+  },
+  {
+    "tick": 93,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 179.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4633646
+  },
+  {
+    "tick": 94,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 192.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 95,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 235.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 96,
+    "algorithm": "ASTAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 268.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 97,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1924.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 98,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1274.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 99,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -717.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4643624
+  },
+  {
+    "tick": 100,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -155.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4658678
+  },
+  {
+    "tick": 101,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 212.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 102,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 470.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 103,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 478.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 104,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 549.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 105,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 619.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 106,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 629.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.493717
+  },
+  {
+    "tick": 107,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 639.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4947536
+  },
+  {
+    "tick": 108,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 713.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4947536
+  },
+  {
+    "tick": 109,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 922.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.495291
+  },
+  {
+    "tick": 110,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1002.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.495291
+  },
+  {
+    "tick": 111,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1017.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.495291
+  },
+  {
+    "tick": 112,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1032.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4969957
+  },
+  {
+    "tick": 113,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1116.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4969957
+  },
+  {
+    "tick": 114,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1132.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.4969957
+  },
+  {
+    "tick": 115,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1148.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.498044
+  },
+  {
+    "tick": 116,
+    "algorithm": "ASTAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1164.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.498044
+  },
+  {
+    "tick": 117,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1518.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.498044
+  },
+  {
+    "tick": 118,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1395.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.498044
+  },
+  {
+    "tick": 119,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1017.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.499003
+  },
+  {
+    "tick": 120,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -881.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.499003
+  },
+  {
+    "tick": 121,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -619.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5000105
+  },
+  {
+    "tick": 122,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -485.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5010164
+  },
+  {
+    "tick": 123,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -350.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5010164
+  },
+  {
+    "tick": 124,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -328.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 125,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -169.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 126,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -29.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 127,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 111.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 128,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 116.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 129,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 146.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 130,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 192.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5015202
+  },
+  {
+    "tick": 131,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 221.5,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5035818
+  },
+  {
+    "tick": 132,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 259.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5035818
+  },
+  {
+    "tick": 133,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 269.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5035818
+  },
+  {
+    "tick": 134,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 279.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5046234
+  },
+  {
+    "tick": 135,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 289.0,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5046234
+  },
+  {
+    "tick": 136,
+    "algorithm": "ASTAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 357.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5046234
+  },
+  {
+    "tick": 137,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -1467.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5056312
+  },
+  {
+    "tick": 138,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": -570.5,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5056312
+  },
+  {
+    "tick": 139,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 198.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5056312
+  },
+  {
+    "tick": 140,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 380.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5056312
+  },
+  {
+    "tick": 141,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 462.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5075886
+  },
+  {
+    "tick": 142,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 468.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5075886
+  },
+  {
+    "tick": 143,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 539.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5075886
+  },
+  {
+    "tick": 144,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 612.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 145,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 701.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 146,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 792.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 147,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 885.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 148,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 966.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 149,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 978.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 150,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 990.0,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5085912
+  },
+  {
+    "tick": 151,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1196.3557110706388,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5105014
+  },
+  {
+    "tick": 152,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 1534.3557110706388,
+    "phase": "EW",
+    "real_timestamp": 1776438533.511509
+  },
+  {
+    "tick": 153,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 2297.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.511509
+  },
+  {
+    "tick": 154,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 2635.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.511509
+  },
+  {
+    "tick": 155,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 3661.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5125418
+  },
+  {
+    "tick": 156,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4179.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5125418
+  },
+  {
+    "tick": 157,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4697.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5135431
+  },
+  {
+    "tick": 158,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5215.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5135431
+  },
+  {
+    "tick": 159,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5733.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5135431
+  },
+  {
+    "tick": 160,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 6333.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5147636
+  },
+  {
+    "tick": 161,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 6852.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.516231
+  },
+  {
+    "tick": 162,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 7469.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.516231
+  },
+  {
+    "tick": 163,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 8173.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.516231
+  },
+  {
+    "tick": 164,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 8695.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.517277
+  },
+  {
+    "tick": 165,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 9324.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.517277
+  },
+  {
+    "tick": 166,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 10346.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.517277
+  },
+  {
+    "tick": 167,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 11368.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.517277
+  },
+  {
+    "tick": 168,
+    "algorithm": "ASTAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Max phase duration (32s) reached \u2192 forced switch",
+    "cost": 12390.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.517277
+  },
+  {
+    "tick": 169,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 7527.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5188181
+  },
+  {
+    "tick": 170,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 6973.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5188181
+  },
+  {
+    "tick": 171,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 6540.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 172,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5959.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 173,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5485.855711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 174,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5477.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 175,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5184.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 176,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 5187.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 177,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4967.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5202093
+  },
+  {
+    "tick": 178,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4971.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5217168
+  },
+  {
+    "tick": 179,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4975.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5217168
+  },
+  {
+    "tick": 180,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4863.855711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5217168
+  },
+  {
+    "tick": 181,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4983.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5233545
+  },
+  {
+    "tick": 182,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4737.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5233545
+  },
+  {
+    "tick": 183,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4624.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5233545
+  },
+  {
+    "tick": 184,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4627.855711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5233545
+  },
+  {
+    "tick": 185,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4749.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5244722
+  },
+  {
+    "tick": 186,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4753.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5244722
+  },
+  {
+    "tick": 187,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4757.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5244722
+  },
+  {
+    "tick": 188,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4511.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.52581
+  },
+  {
+    "tick": 189,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4515.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.52581
+  },
+  {
+    "tick": 190,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4560.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.526432
+  },
+  {
+    "tick": 191,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4565.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5274367
+  },
+  {
+    "tick": 192,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4320.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5284908
+  },
+  {
+    "tick": 193,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4368.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5284908
+  },
+  {
+    "tick": 194,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4418.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5284908
+  },
+  {
+    "tick": 195,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4471.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5295486
+  },
+  {
+    "tick": 196,
+    "algorithm": "ASTAR",
+    "action": "KEEP_PHASE",
+    "reason": "Normal traffic \u2192 A* search",
+    "cost": 4025.355711070639,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5295486
+  },
+  {
+    "tick": 197,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 3784.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5305574
+  },
+  {
+    "tick": 198,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 3428.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5305574
+  },
+  {
+    "tick": 199,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 4548.355711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5305574
+  },
+  {
+    "tick": 200,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 5205.855711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5305574
+  },
+  {
+    "tick": 201,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 5709.855711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 202,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 6299.855711070639,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 203,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 7297.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 204,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 8507.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 205,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 9518.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 206,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 10529.711422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5586238
+  },
+  {
+    "tick": 207,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11644.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.560213
+  },
+  {
+    "tick": 208,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12708.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.560213
+  },
+  {
+    "tick": 209,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 13879.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.560213
+  },
+  {
+    "tick": 210,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 14893.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.560213
+  },
+  {
+    "tick": 211,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 15907.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5622199
+  },
+  {
+    "tick": 212,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 17305.211422141278,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5622199
+  },
+  {
+    "tick": 213,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 18420.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5622199
+  },
+  {
+    "tick": 214,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 14501.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5622199
+  },
+  {
+    "tick": 215,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 13880.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5622199
+  },
+  {
+    "tick": 216,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 13401.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5633268
+  },
+  {
+    "tick": 217,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12931.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5633268
+  },
+  {
+    "tick": 218,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12681.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5633268
+  },
+  {
+    "tick": 219,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12425.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5643454
+  },
+  {
+    "tick": 220,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12373.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5643454
+  },
+  {
+    "tick": 221,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 12315.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.565849
+  },
+  {
+    "tick": 222,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11906.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.565849
+  },
+  {
+    "tick": 223,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11807.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.565849
+  },
+  {
+    "tick": 224,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11561.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.565849
+  },
+  {
+    "tick": 225,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11418.211422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5668535
+  },
+  {
+    "tick": 226,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11230.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5668535
+  },
+  {
+    "tick": 227,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 11237.711422141278,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5668535
+  },
+  {
+    "tick": 228,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane E \u2192 forcing EW-green for 30s",
+    "cost": 20520.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5668535
+  },
+  {
+    "tick": 229,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 23528.651197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5678582
+  },
+  {
+    "tick": 230,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 24941.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5678582
+  },
+  {
+    "tick": 231,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 26351.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5688553
+  },
+  {
+    "tick": 232,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 27666.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5688553
+  },
+  {
+    "tick": 233,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 28793.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5688553
+  },
+  {
+    "tick": 234,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 29967.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 235,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 31247.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 236,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 32380.151197678068,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 237,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 33621.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 238,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 34866.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 239,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 35894.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 240,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 36922.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5699131
+  },
+  {
+    "tick": 241,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 37950.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 242,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 38978.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 243,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane E \u2192 forcing EW-green for 30s",
+    "cost": 40118.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 244,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 41265.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 245,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 42295.15119767807,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 246,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 34199.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.572428
+  },
+  {
+    "tick": 247,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 35229.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5734627
+  },
+  {
+    "tick": 248,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 36381.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5734627
+  },
+  {
+    "tick": 249,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 37412.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5734627
+  },
+  {
+    "tick": 250,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 38443.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5734627
+  },
+  {
+    "tick": 251,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 39719.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 252,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 40752.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 253,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 41785.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 254,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 42946.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 255,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 43834.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 256,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 45014.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 257,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase EW",
+    "cost": 46179.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5745494
+  },
+  {
+    "tick": 258,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 47346.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5760596
+  },
+  {
+    "tick": 259,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 48234.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5760596
+  },
+  {
+    "tick": 260,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Max phase duration (32s) reached \u2192 forced switch",
+    "cost": 49552.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5760596
+  },
+  {
+    "tick": 261,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 41629.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5780666
+  },
+  {
+    "tick": 262,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 41056.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5780666
+  },
+  {
+    "tick": 263,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 40802.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5780666
+  },
+  {
+    "tick": 264,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 40311.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5780666
+  },
+  {
+    "tick": 265,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39759.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5791023
+  },
+  {
+    "tick": 266,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39585.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5791023
+  },
+  {
+    "tick": 267,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39341.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5791023
+  },
+  {
+    "tick": 268,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39345.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5791023
+  },
+  {
+    "tick": 269,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39408.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5801036
+  },
+  {
+    "tick": 270,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39342.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5801036
+  },
+  {
+    "tick": 271,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39097.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5816102
+  },
+  {
+    "tick": 272,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 39031.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5816102
+  },
+  {
+    "tick": 273,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38708.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5816102
+  },
+  {
+    "tick": 274,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38714.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5816102
+  },
+  {
+    "tick": 275,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38720.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5826511
+  },
+  {
+    "tick": 276,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38785.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5826511
+  },
+  {
+    "tick": 277,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38467.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5826511
+  },
+  {
+    "tick": 278,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38367.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5826511
+  },
+  {
+    "tick": 279,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38375.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5837736
+  },
+  {
+    "tick": 280,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38517.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5837736
+  },
+  {
+    "tick": 281,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38591.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.58528
+  },
+  {
+    "tick": 282,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38739.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5863202
+  },
+  {
+    "tick": 283,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38752.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5863202
+  },
+  {
+    "tick": 284,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38765.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5872898
+  },
+  {
+    "tick": 285,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38778.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5872898
+  },
+  {
+    "tick": 286,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38791.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.588328
+  },
+  {
+    "tick": 287,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38882.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.588328
+  },
+  {
+    "tick": 288,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38896.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.589326
+  },
+  {
+    "tick": 289,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38982.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.589873
+  },
+  {
+    "tick": 290,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38747.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.589873
+  },
+  {
+    "tick": 291,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 38667.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.5913777
+  },
+  {
+    "tick": 292,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Max phase duration (32s) reached \u2192 forced switch",
+    "cost": 38684.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5924275
+  },
+  {
+    "tick": 293,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 42781.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5924275
+  },
+  {
+    "tick": 294,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 44163.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5924275
+  },
+  {
+    "tick": 295,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 45554.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5924275
+  },
+  {
+    "tick": 296,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 46707.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5924275
+  },
+  {
+    "tick": 297,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 47866.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5935094
+  },
+  {
+    "tick": 298,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 49028.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5935094
+  },
+  {
+    "tick": 299,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 50183.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5935094
+  },
+  {
+    "tick": 300,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 51845.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.5935094
+  },
+  {
+    "tick": 301,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 53134.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.623294
+  },
+  {
+    "tick": 302,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 54302.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.623294
+  },
+  {
+    "tick": 303,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 55337.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.624301
+  },
+  {
+    "tick": 304,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 56372.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.624301
+  },
+  {
+    "tick": 305,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 57407.21142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 306,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 58579.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 307,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 59615.71142214128,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 308,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 60651.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 309,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52950.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 310,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52511.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6248462
+  },
+  {
+    "tick": 311,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52402.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6263847
+  },
+  {
+    "tick": 312,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52218.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6273901
+  },
+  {
+    "tick": 313,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52220.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6273901
+  },
+  {
+    "tick": 314,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52302.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6273901
+  },
+  {
+    "tick": 315,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52305.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6273901
+  },
+  {
+    "tick": 316,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52058.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6285093
+  },
+  {
+    "tick": 317,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 51811.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6285093
+  },
+  {
+    "tick": 318,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 51814.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6285093
+  },
+  {
+    "tick": 319,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 51817.71142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6285093
+  },
+  {
+    "tick": 320,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52073.21142214128,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6295123
+  },
+  {
+    "tick": 321,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52445.56713321192,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6304734
+  },
+  {
+    "tick": 322,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 52954.56713321192,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6304734
+  },
+  {
+    "tick": 323,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 53475.06713321192,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6304734
+  },
+  {
+    "tick": 324,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 53844.422844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6314714
+  },
+  {
+    "tick": 325,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 54856.422844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6314714
+  },
+  {
+    "tick": 326,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 55710.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6314714
+  },
+  {
+    "tick": 327,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 56723.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6314714
+  },
+  {
+    "tick": 328,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 57736.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.632975
+  },
+  {
+    "tick": 329,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 58591.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.632975
+  },
+  {
+    "tick": 330,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 59355.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.634022
+  },
+  {
+    "tick": 331,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 60369.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6355286
+  },
+  {
+    "tick": 332,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 61065.422844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6355286
+  },
+  {
+    "tick": 333,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 61993.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6365693
+  },
+  {
+    "tick": 334,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 63105.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6365693
+  },
+  {
+    "tick": 335,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 64121.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6375322
+  },
+  {
+    "tick": 336,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 64887.922844282555,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6375322
+  },
+  {
+    "tick": 337,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 66214.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6385472
+  },
+  {
+    "tick": 338,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 67337.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6385472
+  },
+  {
+    "tick": 339,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 68357.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.639578
+  },
+  {
+    "tick": 340,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Max phase duration (32s) reached \u2192 forced switch",
+    "cost": 69480.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.639578
+  },
+  {
+    "tick": 341,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 71491.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6401238
+  },
+  {
+    "tick": 342,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 72180.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6401238
+  },
+  {
+    "tick": 343,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 72581.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6401238
+  },
+  {
+    "tick": 344,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 73150.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6416326
+  },
+  {
+    "tick": 345,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 73719.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6416326
+  },
+  {
+    "tick": 346,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 74348.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6421838
+  },
+  {
+    "tick": 347,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 74677.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6421838
+  },
+  {
+    "tick": 348,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 75307.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6421838
+  },
+  {
+    "tick": 349,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 75687.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6421838
+  },
+  {
+    "tick": 350,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 76718.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.643226
+  },
+  {
+    "tick": 351,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 77249.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.643226
+  },
+  {
+    "tick": 352,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 78030.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6445982
+  },
+  {
+    "tick": 353,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 78811.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6445982
+  },
+  {
+    "tick": 354,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 79592.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6445982
+  },
+  {
+    "tick": 355,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 80373.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.645597
+  },
+  {
+    "tick": 356,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 81195.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.645597
+  },
+  {
+    "tick": 357,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 74895.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.645597
+  },
+  {
+    "tick": 358,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 75300.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.645597
+  },
+  {
+    "tick": 359,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 75553.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.645597
+  },
+  {
+    "tick": 360,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 76056.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6467412
+  },
+  {
+    "tick": 361,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 76309.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6477513
+  },
+  {
+    "tick": 362,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 77410.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6477513
+  },
+  {
+    "tick": 363,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 78414.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6477513
+  },
+  {
+    "tick": 364,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 79519.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6477513
+  },
+  {
+    "tick": 365,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 80375.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6477513
+  },
+  {
+    "tick": 366,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 81586.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6492822
+  },
+  {
+    "tick": 367,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 82344.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6498375
+  },
+  {
+    "tick": 368,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 83352.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6498375
+  },
+  {
+    "tick": 369,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 84360.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6498375
+  },
+  {
+    "tick": 370,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 85368.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6498375
+  },
+  {
+    "tick": 371,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 86594.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6508734
+  },
+  {
+    "tick": 372,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 87715.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6508734
+  },
+  {
+    "tick": 373,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 88726.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6519995
+  },
+  {
+    "tick": 374,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 89737.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6519995
+  },
+  {
+    "tick": 375,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 90248.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6519995
+  },
+  {
+    "tick": 376,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Emergency vehicle in lane N \u2192 forcing NS-green for 30s",
+    "cost": 100497.36261981935,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6519995
+  },
+  {
+    "tick": 377,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 101509.36261981935,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6529624
+  },
+  {
+    "tick": 378,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 102635.86261981935,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6529624
+  },
+  {
+    "tick": 379,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 103516.86261981935,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6534684
+  },
+  {
+    "tick": 380,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 95155.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6534684
+  },
+  {
+    "tick": 381,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 96169.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6544724
+  },
+  {
+    "tick": 382,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 96933.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6544724
+  },
+  {
+    "tick": 383,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 97697.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6544724
+  },
+  {
+    "tick": 384,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 98831.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 385,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 99596.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 386,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 100361.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 387,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 101252.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 388,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 102268.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 389,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 103284.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6555102
+  },
+  {
+    "tick": 390,
+    "algorithm": "EMERGENCY",
+    "action": "EMERGENCY_OVERRIDE",
+    "reason": "Holding emergency phase NS",
+    "cost": 104050.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6565144
+  },
+  {
+    "tick": 391,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Max phase duration (32s) reached \u2192 forced switch",
+    "cost": 105196.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6565144
+  },
+  {
+    "tick": 392,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 107706.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.657475
+  },
+  {
+    "tick": 393,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 107514.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.657475
+  },
+  {
+    "tick": 394,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 107181.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.657475
+  },
+  {
+    "tick": 395,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 107180.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.657475
+  },
+  {
+    "tick": 396,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 107223.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.658514
+  },
+  {
+    "tick": 397,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 108003.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.658514
+  },
+  {
+    "tick": 398,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 109139.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.658514
+  },
+  {
+    "tick": 399,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 109922.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6590571
+  },
+  {
+    "tick": 400,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 110705.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6590571
+  },
+  {
+    "tick": 401,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 111488.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6876252
+  },
+  {
+    "tick": 402,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 112415.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6876252
+  },
+  {
+    "tick": 403,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 112844.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.6876252
+  },
+  {
+    "tick": 404,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 113629.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.689166
+  },
+  {
+    "tick": 405,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 114414.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.689166
+  },
+  {
+    "tick": 406,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 115347.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.689166
+  },
+  {
+    "tick": 407,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 116532.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.689166
+  },
+  {
+    "tick": 408,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 109152.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6901727
+  },
+  {
+    "tick": 409,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 110074.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6901727
+  },
+  {
+    "tick": 410,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 111004.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6901727
+  },
+  {
+    "tick": 411,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 111932.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.692189
+  },
+  {
+    "tick": 412,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 112685.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.692189
+  },
+  {
+    "tick": 413,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 113618.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.692189
+  },
+  {
+    "tick": 414,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 114498.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.693237
+  },
+  {
+    "tick": 415,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 115504.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.693237
+  },
+  {
+    "tick": 416,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 116387.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.693237
+  },
+  {
+    "tick": 417,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 117394.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.693237
+  },
+  {
+    "tick": 418,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 118668.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6942306
+  },
+  {
+    "tick": 419,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 119807.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6942306
+  },
+  {
+    "tick": 420,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 120952.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6942306
+  },
+  {
+    "tick": 421,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 121713.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6957366
+  },
+  {
+    "tick": 422,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 122745.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6957366
+  },
+  {
+    "tick": 423,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 123646.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6957366
+  },
+  {
+    "tick": 424,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 124660.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6957366
+  },
+  {
+    "tick": 425,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 125674.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6974857
+  },
+  {
+    "tick": 426,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 126830.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6974857
+  },
+  {
+    "tick": 427,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 127983.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6974857
+  },
+  {
+    "tick": 428,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 129036.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6974857
+  },
+  {
+    "tick": 429,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 129804.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.699126
+  },
+  {
+    "tick": 430,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 130330.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.6996374
+  },
+  {
+    "tick": 431,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 131254.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7006474
+  },
+  {
+    "tick": 432,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 131532.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7020674
+  },
+  {
+    "tick": 433,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 132314.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7020674
+  },
+  {
+    "tick": 434,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 132778.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7030642
+  },
+  {
+    "tick": 435,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 133537.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7036066
+  },
+  {
+    "tick": 436,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 134093.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7036066
+  },
+  {
+    "tick": 437,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 134632.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7046504
+  },
+  {
+    "tick": 438,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 134750.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7046504
+  },
+  {
+    "tick": 439,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 134869.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7046504
+  },
+  {
+    "tick": 440,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 134937.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7046504
+  },
+  {
+    "tick": 441,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 135901.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7066464
+  },
+  {
+    "tick": 442,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 136677.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7066464
+  },
+  {
+    "tick": 443,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 137646.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7066464
+  },
+  {
+    "tick": 444,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 138416.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7076457
+  },
+  {
+    "tick": 445,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 139535.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7076457
+  },
+  {
+    "tick": 446,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 140558.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7081957
+  },
+  {
+    "tick": 447,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 141581.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7081957
+  },
+  {
+    "tick": 448,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 142556.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7087343
+  },
+  {
+    "tick": 449,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 143329.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7087343
+  },
+  {
+    "tick": 450,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 144352.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7087343
+  },
+  {
+    "tick": 451,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 145664.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7087343
+  },
+  {
+    "tick": 452,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 146689.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7103126
+  },
+  {
+    "tick": 453,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 147714.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7103126
+  },
+  {
+    "tick": 454,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 145328.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7103126
+  },
+  {
+    "tick": 455,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 145104.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7103126
+  },
+  {
+    "tick": 456,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 145973.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.711354
+  },
+  {
+    "tick": 457,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 146313.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.711354
+  },
+  {
+    "tick": 458,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 146610.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.711354
+  },
+  {
+    "tick": 459,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 147075.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.711354
+  },
+  {
+    "tick": 460,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 147624.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.712353
+  },
+  {
+    "tick": 461,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 147946.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7133548
+  },
+  {
+    "tick": 462,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 148505.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.714356
+  },
+  {
+    "tick": 463,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 148817.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.714356
+  },
+  {
+    "tick": 464,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 149761.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.714356
+  },
+  {
+    "tick": 465,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 150780.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.714356
+  },
+  {
+    "tick": 466,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 151868.92284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.714356
+  },
+  {
+    "tick": 467,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 152294.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7158978
+  },
+  {
+    "tick": 468,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 153316.42284428256,
+    "phase": "NS",
+    "real_timestamp": 1776438533.7158978
+  },
+  {
+    "tick": 469,
+    "algorithm": "AO_STAR",
+    "action": "SWITCH_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 154088.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7158978
+  },
+  {
+    "tick": 470,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 149480.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7158978
+  },
+  {
+    "tick": 471,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 149512.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7170317
+  },
+  {
+    "tick": 472,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 150013.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7170317
+  },
+  {
+    "tick": 473,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 150818.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7180102
+  },
+  {
+    "tick": 474,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 151321.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7180102
+  },
+  {
+    "tick": 475,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 151528.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7180102
+  },
+  {
+    "tick": 476,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 152344.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7180102
+  },
+  {
+    "tick": 477,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 153255.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7190175
+  },
+  {
+    "tick": 478,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 154011.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7190175
+  },
+  {
+    "tick": 479,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 154485.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7190175
+  },
+  {
+    "tick": 480,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 155619.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7196345
+  },
+  {
+    "tick": 481,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 157146.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.720739
+  },
+  {
+    "tick": 482,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 158337.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7213633
+  },
+  {
+    "tick": 483,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 159348.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7213633
+  },
+  {
+    "tick": 484,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 160260.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7213633
+  },
+  {
+    "tick": 485,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 161425.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7213633
+  },
+  {
+    "tick": 486,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 162571.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7224884
+  },
+  {
+    "tick": 487,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 163585.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7224884
+  },
+  {
+    "tick": 488,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 164599.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.723119
+  },
+  {
+    "tick": 489,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 165699.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7237437
+  },
+  {
+    "tick": 490,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 166465.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7237437
+  },
+  {
+    "tick": 491,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 167481.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.725483
+  },
+  {
+    "tick": 492,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 168589.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7261045
+  },
+  {
+    "tick": 493,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 169357.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7261045
+  },
+  {
+    "tick": 494,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 170125.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7261045
+  },
+  {
+    "tick": 495,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 171143.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7272372
+  },
+  {
+    "tick": 496,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 171911.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7282271
+  },
+  {
+    "tick": 497,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 172679.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7282271
+  },
+  {
+    "tick": 498,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 173697.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7291183
+  },
+  {
+    "tick": 499,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 174913.92284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7291183
+  },
+  {
+    "tick": 500,
+    "algorithm": "AO_STAR",
+    "action": "KEEP_PHASE",
+    "reason": "Blocked lane detected \u2192 AO* replanning",
+    "cost": 175901.42284428256,
+    "phase": "EW",
+    "real_timestamp": 1776438533.7302368
+  }
+]

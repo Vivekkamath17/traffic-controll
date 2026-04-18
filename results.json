@@ -1,0 +1,28 @@
+{
+  "simulation_ticks": 500,
+  "total_vehicles_served": 523,
+  "emergency_overrides": 120,
+  "algorithm_usage": {
+    "EMERGENCY": 120,
+    "ASTAR": 118,
+    "BEAM": 3,
+    "AO_STAR": 259
+  },
+  "per_algorithm_avg_wait_sec": {
+    "EMERGENCY": 5.14,
+    "ASTAR": 2.19,
+    "BEAM": 3.5,
+    "AO_STAR": 3.85,
+    "BFS": 23.27
+  },
+  "per_lane_avg_wait_sec": {
+    "N": 7.55,
+    "S": 3.45,
+    "E": 1.95,
+    "W": 2.13
+  },
+  "overall_avg_wait_sec": 3.77,
+  "normal_traffic_avg_wait_sec": 2.23,
+  "fixed_timer_avg_wait_sec": 3.32,
+  "improvement_over_fixed_pct": 32.8
+}

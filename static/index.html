@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Adaptive Traffic Controller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Disconnected Banner -->
+  <div id="disconnected-banner" class="hidden">
+    Connection lost — reconnecting...
+  </div>
+
+  <header>
+    <h1>🚦 Smart Adaptive Traffic Controller</h1>
+  </header>
+
+  <main class="grid-container">
+
+    <!-- Panel 1: Canvas -->
+    <section class="panel canvas-panel">
+      <h2>Intersection View</h2>
+      <div class="canvas-wrapper">
+        <canvas id="trafficCanvas" width="500" height="500"></canvas>
+        <div id="fish-swarm-badge" class="hidden">🐟 Optimizing</div>
+      </div>
+    </section>
+
+    <!-- Panel 2: Live Metrics -->
+    <section class="panel metrics-panel">
+      <h2>Live Metrics</h2>
+      
+      <div class="status-bar">
+        <div id="tick-counter">TICK 0</div>
+        <div id="phase-timer">Phase: -- | 0s remaining</div>
+      </div>
+
+      <div class="algorithm-badge" id="algo-badge">ASTAR</div>
+
+      <table class="lane-stats">
+        <thead>
+          <tr>
+            <th>Lane</th>
+            <th>Vehicles</th>
+            <th>Wait (s)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="lane-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+
+      <div class="chart-container">
+        <canvas id="costChart"></canvas>
+      </div>
+
+      <div class="comparison-bars">
+        <div class="bar-row">
+          <span class="bar-label">Current Avg</span>
+          <div class="bar-wrapper"><div class="bar-fill blue" id="bar-astar" style="width: 0%"></div></div>
+          <span class="bar-val" id="val-astar">0s</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Fixed Avg</span>
+          <div class="bar-wrapper"><div class="bar-fill fixed" id="bar-fixed" style="width: 0%"></div></div>
+          <span class="bar-val" id="val-fixed">0s</span>
+        </div>
+      </div>
+      
+    </section>
+
+    <!-- Panel 3: Event Log -->
+    <section class="panel log-panel">
+      <h2>Event Log</h2>
+      <div id="event-log" class="log-content"></div>
+    </section>
+
+    <!-- Bottom Controls Panel -->
+    <section class="panel controls-panel">
+      <div class="controls-row main-controls">
+        <button id="btn-start" class="btn primary">▶ Start</button>
+        <button id="btn-pause" class="btn warning">⏸ Pause</button>
+        <button id="btn-reset" class="btn danger">↺ Reset</button>
+        
+        <div class="speed-toggle">
+          <span>Speed:</span>
+          <input type="radio" id="speed-1" name="speed" value="1">
+          <label for="speed-1">1x</label>
+          <input type="radio" id="speed-5" name="speed" value="5" checked>
+          <label for="speed-5">5x</label>
+          <input type="radio" id="speed-20" name="speed" value="20">
+          <label for="speed-20">20x</label>
+        </div>
+
+        <div class="duration-input">
+          <label for="input-duration">Run for (ticks):</label>
+          <input type="number" id="input-duration" value="5000" min="100">
+        </div>
+      </div>
+
+      <div class="controls-row advanced-controls">
+        <div class="scenarios group">
+          <h3>Scenarios / Inject</h3>
+          <button id="btn-inject-emergency" class="btn btn-sm">🚑 Trigger W Emergency</button>
+          <button id="btn-inject-block" class="btn btn-sm">🚧 Block E Lane</button>
+          <button id="btn-inject-surge" class="btn btn-sm">🌊 Peak Hour Surge</button>
+          <button id="btn-toggle-heatmap" class="btn btn-sm outline">Toggle Heatmap</button>
+        </div>
+
+        <div class="parameters group">
+          <h3>Advanced Parameters <button id="btn-apply-params" class="btn btn-sm outline ml-2">Apply</button></h3>
+          <div class="sliders">
+            <div class="slider-group">
+              <label>Beam Width: <span id="lbl-beam">5</span></label>
+              <input type="range" id="param-beam" min="1" max="10" value="5">
+            </div>
+            <div class="slider-group">
+              <label>Congestion Thr: <span id="lbl-congestion">20</span></label>
+              <input type="range" id="param-congestion" min="5" max="30" value="20">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

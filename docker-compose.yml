@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  traffic-controller:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./results:/app/results
+      - ./traffic_controller.db:/app/traffic_controller.db
+    environment:
+      - SIM_SPEED=5
+      - SIM_DURATION=500
+    restart: unless-stopped

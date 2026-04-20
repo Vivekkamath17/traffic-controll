@@ -46,6 +46,9 @@ class AdaptiveController:
         Reference to the running simulator (needed for FSO fitness).
     """
 
+    # Pedestrian phase hold tracking
+    PEDESTRIAN_PHASE_DURATION: int = 8  # ticks
+
     def __init__(
         self,
         params: Dict | None = None,
@@ -65,6 +68,9 @@ class AdaptiveController:
         # Track emergency override hold time
         self._emergency_hold_ticks: int = 0
         self._emergency_target_phase: str | None = None
+
+        # Track pedestrian phase hold
+        self._pedestrian_hold_ticks: int = 0
 
     # ------------------------------------------------------------------
     # Algorithm selection
@@ -133,6 +139,32 @@ class AdaptiveController:
                 phase=self._emergency_target_phase or state.current_phase,
             )
             return Action.EMERGENCY_OVERRIDE, self._emergency_target_phase, "EMERGENCY"
+
+        # Respect pedestrian phase hold
+        if self._pedestrian_hold_ticks > 0:
+            self._pedestrian_hold_ticks -= 1
+            self._logger.log(
+                tick=state.timestamp,
+                algorithm="PEDESTRIAN",
+                action="PEDESTRIAN_PHASE",
+                reason=f"Holding pedestrian phase ({self._pedestrian_hold_ticks}s remaining)",
+                cost=cost(state, self.params),
+                phase="ALL_RED",
+            )
+            return Action.PEDESTRIAN_PHASE, None, "PEDESTRIAN"
+
+        # Check for pedestrian request (after emergency check)
+        if state.pedestrian_waiting and state.phase_duration > 60:
+            self._pedestrian_hold_ticks = self.PEDESTRIAN_PHASE_DURATION - 1
+            self._logger.log(
+                tick=state.timestamp,
+                algorithm="PEDESTRIAN",
+                action="PEDESTRIAN_PHASE",
+                reason="Pedestrian waiting > 60s → pedestrian phase",
+                cost=cost(state, self.params),
+                phase="ALL_RED",
+            )
+            return Action.PEDESTRIAN_PHASE, None, "PEDESTRIAN"
 
         algorithm = self.select_algorithm(state)
         action, target_phase, reason = self._route(algorithm, state)

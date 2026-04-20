@@ -31,6 +31,15 @@ EMERGENCY_CLEAR_PROB: float = 0.05    # P(emergency clears per tick)
 BLOCKAGE_CLEAR_PROB: float = 0.02     # P(blockage clears per tick)
 MAX_VEHICLES: int = 30
 
+# Traffic profiles (time-of-day patterns)
+TRAFFIC_PROFILES = {
+    "morning_rush": {"N": 0.7, "S": 0.2, "E": 0.5, "W": 0.3},
+    "lunch": {"N": 0.35, "S": 0.35, "E": 0.35, "W": 0.35},
+    "evening_rush": {"N": 0.2, "S": 0.7, "E": 0.3, "W": 0.5},
+    "night": {"N": 0.08, "S": 0.08, "E": 0.08, "W": 0.08},
+    "default": {"N": 0.3, "S": 0.3, "E": 0.3, "W": 0.3},
+}
+
 
 class TrafficSimulator:
     """
@@ -83,9 +92,44 @@ class TrafficSimulator:
         # History for Fish Swarm fitness evaluation
         self._recent_avg_waits: List[float] = []  # last 100 ticks
 
+        # Pedestrian handling
+        self._pedestrian_request_prob: float = 0.003  # per tick
+        self._pedestrian_phase_active: bool = False
+        self._pedestrian_phase_timer: int = 0
+        self._pedestrian_phase_duration: int = 8  # ticks
+
+        # Current traffic profile
+        self._current_profile: str = "default"
+        self._arrival_lambdas: dict[str, float] = TRAFFIC_PROFILES["default"].copy()
+
     # ------------------------------------------------------------------
     # Core simulation step
     # ------------------------------------------------------------------
+
+    def set_profile(self, profile: str) -> None:
+        """
+        Change the traffic profile (time-of-day traffic patterns).
+
+        Parameters
+        ----------
+        profile : str
+            One of: "morning_rush", "lunch", "evening_rush", "night", "default"
+
+        Raises
+        ------
+        ValueError
+            If profile name is not recognized.
+        """
+        if profile not in TRAFFIC_PROFILES:
+            raise ValueError(f"Unknown profile: {profile}. Valid profiles: {list(TRAFFIC_PROFILES.keys())}")
+
+        self._current_profile = profile
+        self._arrival_lambdas = TRAFFIC_PROFILES[profile].copy()
+
+        # Update lane arrival rates
+        for direction, lane in self._state.lanes.items():
+            if direction in self._arrival_lambdas:
+                lane.arrival_rate = self._arrival_lambdas[direction]
 
     def tick(self) -> None:
         """
@@ -97,14 +141,37 @@ class TrafficSimulator:
         2. **Throughput**: Vehicles depart green lanes probabilistically.
         3. **Waiting**: Red-lane vehicles accumulate waiting time.
         4. **Events**: Random emergencies and blockages are triggered/cleared.
-        5. **Fixed-timer baseline**: Parallel state advanced for comparison.
+        5. **Pedestrian**: Handle pedestrian crossing phases.
+        6. **Fixed-timer baseline**: Parallel state advanced for comparison.
         """
         self._tick += 1
         state = self._state
 
-        # 1. Vehicle arrivals (Poisson)
+        # Handle pedestrian phase
+        if self._pedestrian_phase_active:
+            self._pedestrian_phase_timer += 1
+            if self._pedestrian_phase_timer >= self._pedestrian_phase_duration:
+                self._pedestrian_phase_active = False
+                self._pedestrian_phase_timer = 0
+                state.pedestrian_waiting = False
+            # During pedestrian phase, no new vehicles clear
+            # Just accumulate waiting time
+            for direction, lane in state.lanes.items():
+                if lane.vehicle_count > 0:
+                    lane.waiting_time += 0.5  # Reduced waiting accumulation during ped phase
+            state.timestamp = self._tick
+            state.phase_duration += 1
+            return
+
+        # Check for pedestrian request
+        if not state.pedestrian_waiting and not self._pedestrian_phase_active:
+            if random.random() < self._pedestrian_request_prob:
+                state.pedestrian_waiting = True
+
+        # 1. Vehicle arrivals (Poisson) - use profile-specific lambdas
         for direction, lane in state.lanes.items():
-            arrivals = np.random.poisson(self._arrival_lambda)
+            arrival_lambda = self._arrival_lambdas.get(direction, self._arrival_lambda)
+            arrivals = np.random.poisson(arrival_lambda)
             lane.vehicle_count = min(MAX_VEHICLES, lane.vehicle_count + arrivals)
 
         # 2. Throughput for green lanes
@@ -142,7 +209,14 @@ class TrafficSimulator:
                 if random.random() < BLOCKAGE_PROB:
                     lane.is_blocked = True
 
-        # 5. Fixed-timer baseline tracking
+        # 5. Apply pedestrian phase if requested and phase duration > 60s
+        if state.pedestrian_waiting and state.phase_duration > 60 and not self._pedestrian_phase_active:
+            self._pedestrian_phase_active = True
+            self._pedestrian_phase_timer = 0
+            # All vehicle signals go to red during pedestrian phase
+            # This is handled by the controller returning PEDESTRIAN_PHASE
+
+        # 6. Fixed-timer baseline tracking
         self._tick_fixed_timer()
 
         # Record average wait for FSO fitness
@@ -202,6 +276,14 @@ class TrafficSimulator:
                 state.current_phase = target_phase
                 state.phase_duration = 0
             self._emergency_override_ticks.append(self._tick)
+
+        elif action == Action.PEDESTRIAN_PHASE:
+            # Start pedestrian crossing phase
+            self._pedestrian_phase_active = True
+            self._pedestrian_phase_timer = 0
+            state.pedestrian_waiting = True
+            # Reset phase duration for tracking
+            state.phase_duration = 0
 
         # KEEP_PHASE: phase_duration already incremented in tick()
 

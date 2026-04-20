@@ -8,22 +8,48 @@
   <link rel="stylesheet" href="/static/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body data-theme="dark">
 
   <!-- Disconnected Banner -->
   <div id="disconnected-banner" class="hidden">
     Connection lost — reconnecting...
   </div>
 
-  <header>
+  <header style="display: flex; justify-content: space-between; align-items: center;">
     <h1>🚦 Smart Adaptive Traffic Controller</h1>
+    <div style="display: flex; gap: 10px;">
+      <button id="btn-nav-dashboard" class="btn btn-sm active" title="Dashboard">Dashboard</button>
+      <button id="btn-nav-event-log" class="btn btn-sm" title="Event Log">Event Log</button>
+      <button id="btn-theme-toggle" class="btn btn-sm" title="Toggle theme">🌙</button>
+      <button id="btn-mute-toggle" class="btn btn-sm" title="Toggle sound">🔊</button>
+    </div>
   </header>
 
-  <main class="grid-container">
+  <main style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="grid-container">
 
     <!-- Panel 1: Canvas -->
     <section class="panel canvas-panel">
       <h2>Intersection View</h2>
+
+      <!-- Split-screen comparison (hidden by default) -->
+      <div id="split-container" class="split-container" style="display: none; margin-bottom: 10px;">
+        <div class="split-canvas-wrapper">
+          <h3>Adaptive AI</h3>
+          <canvas id="canvas-ai" width="250" height="250"></canvas>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div id="improvement-badge" class="improvement-badge">0%</div>
+        </div>
+        <div class="split-canvas-wrapper">
+          <h3>Fixed 30s Timer</h3>
+          <canvas id="canvas-fixed" width="250" height="250"></canvas>
+        </div>
+      </div>
+
+      <!-- Main canvas -->
       <div class="canvas-wrapper">
         <canvas id="trafficCanvas" width="500" height="500"></canvas>
         <div id="fish-swarm-badge" class="hidden">🐟 Optimizing</div>
@@ -65,19 +91,55 @@
           <div class="bar-wrapper"><div class="bar-fill blue" id="bar-astar" style="width: 0%"></div></div>
           <span class="bar-val" id="val-astar">0s</span>
         </div>
+        <div class="bar-row" id="split-fixed-bar" style="display: none;">
+          <span class="bar-label">Fixed Timer</span>
+          <div class="bar-wrapper"><div class="bar-fill fixed" id="bar-split-fixed" style="width: 0%"></div></div>
+          <span class="bar-val" id="val-split-fixed">0s</span>
+        </div>
         <div class="bar-row">
           <span class="bar-label">Fixed Avg</span>
           <div class="bar-wrapper"><div class="bar-fill fixed" id="bar-fixed" style="width: 0%"></div></div>
           <span class="bar-val" id="val-fixed">0s</span>
         </div>
       </div>
-      
-    </section>
 
-    <!-- Panel 3: Event Log -->
-    <section class="panel log-panel">
-      <h2>Event Log</h2>
-      <div id="event-log" class="log-content"></div>
+      <!-- Save chart button -->
+      <div style="margin-top: 12px;">
+        <button id="btn-save-chart" class="btn btn-sm outline">⬇ Save chart</button>
+      </div>
+      
+      <div class="scenarios group">
+        <h3>Scenarios / Inject</h3>
+        <button id="btn-inject-emergency" class="btn btn-sm">🚑 Trigger W Emergency</button>
+        <button id="btn-inject-block" class="btn btn-sm">🚧 Block E Lane</button>
+        <button id="btn-inject-surge" class="btn btn-sm">🌊 Peak Hour Surge</button>
+        <button id="btn-trigger-pedestrian" class="btn btn-sm">🚶 Trigger Pedestrian</button>
+        <button id="btn-toggle-heatmap" class="btn btn-sm outline">🌡 Heatmap</button>
+      </div>
+
+      <div class="group history-group">
+        <h3>History</h3>
+        <button id="btn-past-runs" class="btn btn-sm outline">📋 Past Runs</button>
+        <div id="past-runs-panel" class="past-runs-panel">
+          <h4>Session History</h4>
+          <table class="past-runs-table">
+            <thead>
+              <tr>
+                <th>Date/Time</th>
+                <th>Duration</th>
+                <th>AI Wait</th>
+                <th>Fixed Wait</th>
+                <th>Improvement</th>
+                <th>Served</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="past-runs-table-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
     <!-- Bottom Controls Panel -->
@@ -104,14 +166,6 @@
       </div>
 
       <div class="controls-row advanced-controls">
-        <div class="scenarios group">
-          <h3>Scenarios / Inject</h3>
-          <button id="btn-inject-emergency" class="btn btn-sm">🚑 Trigger W Emergency</button>
-          <button id="btn-inject-block" class="btn btn-sm">🚧 Block E Lane</button>
-          <button id="btn-inject-surge" class="btn btn-sm">🌊 Peak Hour Surge</button>
-          <button id="btn-toggle-heatmap" class="btn btn-sm outline">Toggle Heatmap</button>
-        </div>
-
         <div class="parameters group">
           <h3>Advanced Parameters <button id="btn-apply-params" class="btn btn-sm outline ml-2">Apply</button></h3>
           <div class="sliders">
@@ -125,9 +179,76 @@
             </div>
           </div>
         </div>
+
+        <div class="group traffic-profile-group">
+          <h3>Traffic Profile</h3>
+          <select id="select-profile" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text);">
+            <option value="default">Default (Balanced)</option>
+            <option value="morning_rush">Morning Rush</option>
+            <option value="lunch">Lunch</option>
+            <option value="evening_rush">Evening Rush</option>
+            <option value="night">Night</option>
+          </select>
+        </div>
+
+        <div class="group compare-replay-group">
+          <h3>Compare & Replay</h3>
+          <button id="btn-split-compare" class="btn btn-sm outline">⚡ Split Compare</button>
+          <div class="replay-controls" style="margin-top: 8px;">
+            <button id="btn-replay" class="btn btn-sm">⏮ Replay</button>
+            <button id="btn-live" class="btn btn-sm active">↩ Live</button>
+            <input type="range" id="scrub-bar" min="0" max="0" step="1" value="0" style="width: 120px;">
+            <span id="replay-tick-display" class="replay-tick-display">Tick: 0</span>
+          </div>
+        </div>
       </div>
 
     </section>
+
+    </div>
+
+    <!-- Event Log Drawer (hidden by default; overlays UI) -->
+    <div id="event-log-view" class="event-log-drawer" aria-hidden="true">
+      <div class="panel event-log-panel">
+        <div class="event-log-header">
+          <h2 style="margin: 0;">Event Log</h2>
+          <div class="event-log-actions">
+            <button id="btn-close-event-log" class="btn btn-sm outline" title="Close">✕</button>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-autoscroll" checked>
+              <span>Auto-scroll</span>
+            </label>
+            <button id="btn-clear-logs" class="btn btn-sm danger">Clear</button>
+            <button id="btn-download-json" class="btn btn-sm outline">⬇ JSON</button>
+            <button id="btn-download-csv" class="btn btn-sm outline">⬇ CSV</button>
+          </div>
+        </div>
+
+        <div class="event-log-filters">
+          <div class="filter-group">
+            <span class="filter-label">Algorithm</span>
+            <label class="chip"><input type="checkbox" id="filter-algo-astar" checked> ASTAR</label>
+            <label class="chip"><input type="checkbox" id="filter-algo-beam" checked> BEAM</label>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Action</span>
+            <label class="chip"><input type="checkbox" id="filter-action-keep" checked> KEEP_PHASE</label>
+            <label class="chip"><input type="checkbox" id="filter-action-switch" checked> SWITCH_PHASE</label>
+          </div>
+
+          <div class="filter-group" style="flex: 1; justify-content: flex-end;">
+            <input id="input-log-search" class="input" type="text" placeholder="Search tick or keyword (e.g. 120, SWITCH, emergency)…" />
+          </div>
+        </div>
+
+        <div id="event-log-viewport" class="log-content event-log-viewport" aria-label="Event Log">
+          <div id="event-log-spacer-top"></div>
+          <div id="event-log-items"></div>
+          <div id="event-log-spacer-bottom"></div>
+        </div>
+      </div>
+    </div>
 
   </main>
 

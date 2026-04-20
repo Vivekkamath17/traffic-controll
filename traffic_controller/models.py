@@ -32,6 +32,7 @@ class Action(Enum):
     KEEP_PHASE = auto()
     SWITCH_PHASE = auto()
     EMERGENCY_OVERRIDE = auto()
+    PEDESTRIAN_PHASE = auto()
 
 
 @dataclass
@@ -92,9 +93,12 @@ class TrafficState:
         Number of seconds the current phase has been active.
     timestamp : int
         Simulation tick counter (seconds since start).
+    pedestrian_waiting : bool
+        True when pedestrians are waiting to cross (triggers pedestrian phase).
     """
 
     lanes: Dict[str, LaneState] = field(default_factory=dict)
+    pedestrian_waiting: bool = False
     current_phase: str = "NS"
     phase_duration: int = 0
     timestamp: int = 0
@@ -142,6 +146,7 @@ class TrafficState:
             current_phase=self.current_phase,
             phase_duration=self.phase_duration,
             timestamp=self.timestamp,
+            pedestrian_waiting=self.pedestrian_waiting,
         )
 
     def __repr__(self) -> str:

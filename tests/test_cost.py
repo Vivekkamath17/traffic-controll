@@ -109,6 +109,94 @@ class TestStarvationPenalty:
 # ---------------------------------------------------------------------------
 
 class TestCostFunction:
+    """Comprehensive tests for the cost function."""
+
+    def test_all_lanes_empty_cost_is_zero(self):
+        """All lanes empty → cost = 0."""
+        state = _make_state(
+            n_count=0, s_count=0, e_count=0, w_count=0,
+            n_wait=0.0, s_wait=0.0, e_wait=0.0, w_wait=0.0,
+        )
+        c = cost(state)
+        assert c == pytest.approx(0.0)
+
+    def test_one_lane_congestion_cost(self):
+        """One lane with 10 vehicles waiting 60s → expected congestion cost = 10 * 60 = 600."""
+        state = _make_state(
+            n_count=10, n_wait=60.0,
+            s_count=0, s_wait=0.0,
+            e_count=0, e_wait=0.0,
+            w_count=0, w_wait=0.0,
+        )
+        c = cost(state)
+        # Congestion = 10 * 60 = 600, throughput reward = 200 * 10 = 2000 (N is green)
+        # Net cost = 600 - 2000 = -1400
+        assert c == pytest.approx(600.0 - 2000.0)
+
+    def test_emergency_penalty_applied_explicit(self):
+        """Emergency flag active → cost includes 10000 penalty."""
+        state_no_emg = _make_state(has_emergency=False)
+        state_emg = _make_state(has_emergency=True)
+        diff = cost(state_emg) - cost(state_no_emg)
+        assert diff == pytest.approx(10000.0)
+
+    def test_starvation_penalty_kicks_in(self):
+        """Waiting time > 120s → starvation penalty applies."""
+        state_normal = _make_state(e_count=5, e_wait=100.0)  # Below threshold
+        state_starved = _make_state(e_count=5, e_wait=150.0)  # Above threshold
+
+        # Starvation penalty = 500 * (150 - 120) = 15000
+        expected_penalty = 500.0 * (150.0 - 120.0)
+        extra_congestion = 5 * (150.0 - 100.0)  # 250
+
+        delta = cost(state_starved) - cost(state_normal)
+        assert delta == pytest.approx(extra_congestion + expected_penalty)
+
+    def test_throughput_reward_applies(self):
+        """Vehicles in green lanes → throughput reward applies."""
+        state_no_green = _make_state(
+            phase="EW",  # NS is red
+            n_count=10, s_count=10,
+            e_count=0, w_count=0
+        )
+        state_green = _make_state(
+            phase="NS",  # NS is green
+            n_count=10, s_count=10,
+            e_count=0, w_count=0
+        )
+        # Green state should have lower cost (more throughput reward)
+        assert cost(state_green) < cost(state_no_green)
+
+    def test_all_conditions_simultaneously(self):
+        """Test all cost components simultaneously."""
+        state = TrafficState(
+            lanes={
+                "N": LaneState(vehicle_count=10, waiting_time=60.0, has_emergency=True),  # Green, emergency
+                "S": LaneState(vehicle_count=8, waiting_time=130.0),   # Green, starved
+                "E": LaneState(vehicle_count=5, waiting_time=50.0),    # Red
+                "W": LaneState(vehicle_count=3, waiting_time=40.0),   # Red
+            },
+            current_phase="NS",
+            phase_duration=20,
+            timestamp=100,
+        )
+
+        c = cost(state)
+
+        # Verify all components are present:
+        # - Congestion: 10*60 + 8*130 + 5*50 + 3*40 = 600 + 1040 + 250 + 120 = 2010
+        # - Emergency penalty: 10000
+        # - Starvation: 500 * (130 - 120) = 5000 (only S lane)
+        # - Throughput reward: 200 * (10 + 8) = 3600 (N and S are green)
+        expected_congestion = 10*60 + 8*130 + 5*50 + 3*40
+        expected_emergency = 10000
+        expected_starvation = 500 * (130 - 120)
+        expected_throughput = 200 * (10 + 8)
+
+        expected_total = expected_congestion + expected_emergency + expected_starvation - expected_throughput
+
+        assert c == pytest.approx(expected_total)
+
     def test_congestion_component(self):
         """Cost includes vehicle_count * waiting_time for each lane."""
         state = _make_state(

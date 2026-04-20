@@ -16,6 +16,7 @@ waiting time over the last 100 ticks (higher = better).
 from __future__ import annotations
 
 import random
+import threading
 from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Tuple
@@ -149,6 +150,9 @@ class FishSwarm:
         self._fitness_fn: Callable[[Dict[str, float]], float] = (
             fitness_fn or self._default_fitness
         )
+
+        # Threading lock to protect parameter writes
+        self._lock = threading.Lock()
 
         # Initialise swarm
         self._swarm: List[Fish] = [
@@ -336,6 +340,8 @@ class FishSwarm:
         """
         Run the fish swarm optimisation for a number of iterations.
 
+        Thread-safe: uses internal lock to protect parameter writes.
+
         Parameters
         ----------
         iterations : int
@@ -346,26 +352,35 @@ class FishSwarm:
         dict[str, float]
             Best parameter set found during optimisation.
         """
-        self._evaluate_all()
+        with self._lock:
+            self._evaluate_all()
 
-        for _ in range(iterations):
-            for fish in self._swarm:
-                self._update_fish(fish)
+            for _ in range(iterations):
+                for fish in self._swarm:
+                    self._update_fish(fish)
 
-            # Refresh global best
-            current_best = max(self._swarm, key=lambda f: f.fitness)
-            if current_best.fitness > self._best_fish.fitness:
-                self._best_fish = deepcopy(current_best)
+                # Refresh global best
+                current_best = max(self._swarm, key=lambda f: f.fitness)
+                if current_best.fitness > self._best_fish.fitness:
+                    self._best_fish = deepcopy(current_best)
 
-        best_params = self._best_fish.to_params()
-        # Ensure integer params are rounded
-        best_params["min_phase_duration"] = round(best_params["min_phase_duration"])
-        best_params["max_phase_duration"] = round(best_params["max_phase_duration"])
-        best_params["beam_width"] = round(best_params["beam_width"])
-        best_params["congestion_threshold"] = round(best_params["congestion_threshold"])
-        return best_params
+            best_params = self._best_fish.to_params()
+            # Ensure integer params are rounded
+            best_params["min_phase_duration"] = round(best_params["min_phase_duration"])
+            best_params["max_phase_duration"] = round(best_params["max_phase_duration"])
+            best_params["beam_width"] = round(best_params["beam_width"])
+            best_params["congestion_threshold"] = round(best_params["congestion_threshold"])
+            return best_params
 
     @property
     def best_params(self) -> Dict[str, float]:
         """Return the current best parameter set without re-optimising."""
-        return self._best_fish.to_params()
+        with self._lock:
+            return self._best_fish.to_params()
+
+    def get_best_params_threadsafe(self) -> Dict[str, float]:
+        """Thread-safe access to best parameters during optimization."""
+        with self._lock:
+            if self._best_fish:
+                return self._best_fish.to_params()
+            return DEFAULT_PARAMS.copy()

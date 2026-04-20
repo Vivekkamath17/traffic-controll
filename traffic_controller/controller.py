@@ -17,6 +17,7 @@ from traffic_controller.algorithms.astar import astar_search
 from traffic_controller.algorithms.beam_search import beam_search
 from traffic_controller.algorithms.bfs import bfs_baseline, fixed_timer_avg_wait
 from traffic_controller.algorithms.emergency import handle_emergency, check_emergency
+from traffic_controller.algorithms.rl_agent import QLearningAgent
 from traffic_controller.models import Action, TrafficState
 from traffic_controller.optimization.fish_swarm import DEFAULT_PARAMS, FishSwarm
 from traffic_controller.utils.cost import cost
@@ -46,9 +47,6 @@ class AdaptiveController:
         Reference to the running simulator (needed for FSO fitness).
     """
 
-    # Pedestrian phase hold tracking
-    PEDESTRIAN_PHASE_DURATION: int = 8  # ticks
-
     def __init__(
         self,
         params: Dict | None = None,
@@ -58,6 +56,7 @@ class AdaptiveController:
         self.params: Dict = dict(DEFAULT_PARAMS) if params is None else dict(params)
         self._fso_interval = fso_interval
         self._simulator = simulator_ref
+        self.simulator_ref = simulator_ref
         self._logger = DecisionLogger()
         self._fso: FishSwarm | None = None
 
@@ -68,9 +67,9 @@ class AdaptiveController:
         # Track emergency override hold time
         self._emergency_hold_ticks: int = 0
         self._emergency_target_phase: str | None = None
+        self.emergency_ticks_remaining: int = 0
 
-        # Track pedestrian phase hold
-        self._pedestrian_hold_ticks: int = 0
+        self.rl_agent = QLearningAgent()
 
     # ------------------------------------------------------------------
     # Algorithm selection
@@ -111,7 +110,7 @@ class AdaptiveController:
     # Decision
     # ------------------------------------------------------------------
 
-    def decide(self, state: TrafficState) -> tuple[Action, str | None, str]:
+    def decide(self, state: TrafficState) -> Action:
         """
         Choose and return the best action for the current state.
 
@@ -127,61 +126,12 @@ class AdaptiveController:
             target_phase is only set for EMERGENCY_OVERRIDE; None otherwise.
             algorithm_used is the name of the algorithm that decided.
         """
-        # Respect emergency hold
-        if self._emergency_hold_ticks > 0:
-            self._emergency_hold_ticks -= 1
-            self._logger.log(
-                tick=state.timestamp,
-                algorithm="EMERGENCY",
-                action="EMERGENCY_OVERRIDE",
-                reason=f"Holding emergency phase {self._emergency_target_phase}",
-                cost=cost(state, self.params),
-                phase=self._emergency_target_phase or state.current_phase,
-            )
-            return Action.EMERGENCY_OVERRIDE, self._emergency_target_phase, "EMERGENCY"
-
-        # Respect pedestrian phase hold
-        if self._pedestrian_hold_ticks > 0:
-            self._pedestrian_hold_ticks -= 1
-            self._logger.log(
-                tick=state.timestamp,
-                algorithm="PEDESTRIAN",
-                action="PEDESTRIAN_PHASE",
-                reason=f"Holding pedestrian phase ({self._pedestrian_hold_ticks}s remaining)",
-                cost=cost(state, self.params),
-                phase="ALL_RED",
-            )
-            return Action.PEDESTRIAN_PHASE, None, "PEDESTRIAN"
-
-        # Check for pedestrian request (after emergency check)
-        if state.pedestrian_waiting and state.phase_duration > 60:
-            self._pedestrian_hold_ticks = self.PEDESTRIAN_PHASE_DURATION - 1
-            self._logger.log(
-                tick=state.timestamp,
-                algorithm="PEDESTRIAN",
-                action="PEDESTRIAN_PHASE",
-                reason="Pedestrian waiting > 60s → pedestrian phase",
-                cost=cost(state, self.params),
-                phase="ALL_RED",
-            )
-            return Action.PEDESTRIAN_PHASE, None, "PEDESTRIAN"
-
-        algorithm = self.select_algorithm(state)
-        action, target_phase, reason = self._route(algorithm, state)
-
-        # _route may force a SWITCH_PHASE (max duration override) — keep label accurate
-        effective_algo = algorithm if action != Action.SWITCH_PHASE or algorithm == "EMERGENCY" else algorithm
-
-        self._logger.log(
-            tick=state.timestamp,
-            algorithm=effective_algo,
-            action=action.name,
-            reason=reason,
-            cost=cost(state, self.params),
-            phase=self._resolved_phase(state, action, target_phase),
-        )
-
-        return action, target_phase, effective_algo
+        # Hard safety override — Q-agent cannot countermand emergencies
+        for lane in state.lanes.values():
+            if lane.has_emergency:
+                return Action.EMERGENCY_OVERRIDE
+        hint = self._run_rule_based(state)
+        return self.rl_agent.select_action(state, context_hint=hint)
 
     # ------------------------------------------------------------------
     # FSO parameter optimisation
@@ -201,9 +151,29 @@ class AdaptiveController:
         if self._fso is None:
             self._init_fso()
 
-        new_params = self._fso.optimise(iterations=10)  # type: ignore[union-attr]
-        self.params.update(new_params)
-        return self.params
+        new_params = self._fso.run(iterations=10)  # type: ignore[union-attr]
+        return new_params
+
+    def apply_fish_swarm_result(self, params: Dict) -> None:
+        """Apply optimized parameters from Fish Swarm to live controller."""
+        if "beam_width" in params:
+            self.params["beam_width"] = int(params["beam_width"])
+        if "congestion_threshold" in params:
+            self.params["congestion_threshold"] = int(params["congestion_threshold"])
+        if "emergency_penalty" in params:
+            self.params["emergency_penalty"] = float(params["emergency_penalty"])
+        if "starvation_threshold" in params:
+            self.params["starvation_threshold"] = int(params["starvation_threshold"])
+        if "min_phase_duration" in params:
+            self.params["min_phase_duration"] = int(params["min_phase_duration"])
+        if "max_phase_duration" in params:
+            self.params["max_phase_duration"] = int(params["max_phase_duration"])
+        from traffic_controller.utils.cost import set_weights
+        set_weights(emergency_penalty=params.get("emergency_penalty", 10000))
+
+    def record_outcome(self, prev_state, new_state, emergency_cleared: bool = False):
+        reward = self.rl_agent.calculate_reward(prev_state, new_state, emergency_cleared)
+        self.rl_agent.update(new_state, reward)
 
     def maybe_optimize(self, tick: int) -> bool:
         """
@@ -288,6 +258,26 @@ class AdaptiveController:
         else:  # ASTAR
             action = astar_search(state, params=self.params)
             return action, None, "Normal traffic → A* search"
+
+    def _run_rule_based(self, state: TrafficState) -> Action:
+        """
+        Legacy routing logic retained only to generate context hints
+        for Q-learning exploration.
+        """
+        algorithm = self.select_algorithm(state)
+        action, target_phase, reason = self._route(algorithm, state)
+        self._logger.log(
+            tick=state.timestamp,
+            algorithm=algorithm,
+            action=action.name,
+            reason=reason,
+            cost=cost(state, self.params),
+            phase=self._resolved_phase(state, action, target_phase),
+        )
+        if action == Action.EMERGENCY_OVERRIDE:
+            # Keep hint actionable for tabular Q choices.
+            return Action.SWITCH_PHASE
+        return action
 
     @staticmethod
     def _resolved_phase(

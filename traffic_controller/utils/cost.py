@@ -20,6 +20,16 @@ DEFAULT_STARVATION_THRESHOLD: float = 120.0   # seconds before penalty applies
 DEFAULT_STARVATION_PENALTY: float = 500.0
 DEFAULT_THROUGHPUT_REWARD: float = 200.0
 
+_weights = {
+    "emergency_penalty": 10000.0,
+    "starvation_penalty": 500.0,
+    "throughput_reward": 200.0,
+}
+
+
+def set_weights(**kwargs):
+    _weights.update(kwargs)
+
 
 def lane_cost(lane: LaneState) -> float:
     """
@@ -93,10 +103,10 @@ def cost(
         Composite cost value (lower = better).
     """
     p = params or {}
-    emg_pen = p.get("emergency_penalty_weight", DEFAULT_EMERGENCY_PENALTY)
+    emg_pen = p.get("emergency_penalty", p.get("emergency_penalty_weight", _weights["emergency_penalty"]))
     starv_thresh = p.get("starvation_threshold", DEFAULT_STARVATION_THRESHOLD)
-    starv_pen = p.get("starvation_penalty_weight", DEFAULT_STARVATION_PENALTY)
-    thru_rew = p.get("throughput_reward", DEFAULT_THROUGHPUT_REWARD)
+    starv_pen = p.get("starvation_penalty_weight", _weights["starvation_penalty"])
+    thru_rew = p.get("throughput_reward", _weights["throughput_reward"])
 
     # --- Congestion cost ---
     congestion = sum(lane_cost(lane) for lane in state.lanes.values())

@@ -130,7 +130,8 @@ header h1 {
 .canvas-panel {
   grid-column: 1;
   grid-row: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .metrics-panel {
@@ -147,7 +148,7 @@ header h1 {
   grid-column: 1;
   grid-row: 2;
   border-top: 1px solid var(--border);
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: stretch;
   overflow: visible;
@@ -168,13 +169,14 @@ h2 {
 /* Canvas area */
 .canvas-wrapper {
   position: relative;
-  border: 2px solid var(--border);
+  border: 1px solid #2a3a4a;
   border-radius: 8px;
   background-color: var(--canvas-bg);
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  margin-top: 4px;
   width: 100%;
   max-width: 100%;
-  min-height: 60vh;
+  min-height: 58vh;
   height: 65vh;
   overflow: hidden;
 }
@@ -261,6 +263,15 @@ h2 {
   text-transform: uppercase;
   color: white;
   background-color: var(--blue);
+}
+.rl-policy-row {
+  margin-top: -8px;
+}
+.rl-stats-line {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: -8px;
 }
 
 .badge-astar { background-color: var(--blue); }
@@ -496,43 +507,70 @@ h2 {
   flex-wrap: wrap;
 }
 
-.controls-row.main-controls {
-  gap: 14px;
-  justify-content: flex-start;
-}
-
-.controls-row.advanced-controls {
-  gap: 12px;
-  align-items: stretch;
-}
-
-.controls-row.advanced-controls .group {
-  flex: 1;
-  min-width: 220px;
-  background: rgba(0,0,0,0.18);
-  border: 1px solid rgba(42, 42, 74, 0.6);
-  border-radius: 8px;
-  padding: 12px;
-}
-
-.controls-row.advanced-controls .group > h3 {
+.controls-split {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.controls-row.advanced-controls .replay-controls {
+  align-items: stretch;
+  gap: 16px;
   width: 100%;
 }
 
-/* Force controls into 3 rows (Row2: params+profile, Row3: compare) */
-.controls-row.advanced-controls { flex-wrap: wrap; }
-.controls-row.advanced-controls .parameters { flex: 2; min-width: 320px; }
-.controls-row.advanced-controls .traffic-profile-group { flex: 1; min-width: 220px; }
-.controls-row.advanced-controls .traffic-profile-group #select-profile { width: 100%; }
-.controls-row.advanced-controls .compare-replay-group { flex-basis: 100%; min-width: 100%; }
-.controls-row.advanced-controls .compare-replay-group .replay-controls { width: 100%; }
+.controls-left {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 16px;
+  border-right: 1px solid rgba(128, 128, 170, 0.35);
+}
+
+.controls-left-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.controls-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controls-right-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.controls-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.controls-inline-sliders {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls-inline-sliders .slider-group input {
+  width: 130px;
+}
+
+#select-profile {
+  width: 100%;
+  max-width: 200px;
+}
 
 .btn {
   background: transparent;
@@ -640,6 +678,7 @@ h2 {
 .replay-controls {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 12px;
   background: rgba(0,0,0,0.2);
   padding: 8px 12px;
@@ -647,8 +686,11 @@ h2 {
 }
 
 .replay-controls input[type="range"] {
-  flex: 1;
-  min-width: 150px;
+  flex: 0 0 180px;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  flex-shrink: 0;
 }
 
 .replay-tick-display {
@@ -697,6 +739,28 @@ h2 {
 .btn.active {
   background: var(--blue);
   color: white;
+}
+
+/* Header nav links (Dashboard/Event Log) */
+.nav-link {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 4px 2px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: var(--text);
+}
+
+.nav-link.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
 }
 
 /* Responsive below 1200px */

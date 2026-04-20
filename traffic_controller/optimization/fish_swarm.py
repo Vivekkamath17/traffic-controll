@@ -29,21 +29,21 @@ import numpy as np
 # ---------------------------------------------------------------------------
 
 PARAM_NAMES: List[str] = [
-    "min_phase_duration",       # seconds  [10, 25]
-    "max_phase_duration",       # seconds  [30, 90]
-    "emergency_penalty_weight", # [5000, 20000]
-    "starvation_threshold",     # seconds  [60, 180]
-    "beam_width",               # [3, 10]
-    "congestion_threshold",     # vehicles [15, 25]
+    "min_phase_duration",   # [5, 60]
+    "max_phase_duration",   # [20, 120]
+    "emergency_penalty",    # [1000, 50000]
+    "starvation_threshold", # [30, 300]
+    "beam_width",           # [1, 10]
+    "congestion_threshold", # [5, 30]
 ]
 
 PARAM_BOUNDS: List[Tuple[float, float]] = [
-    (10.0,   25.0),
-    (30.0,   90.0),
-    (5000.0, 20_000.0),
-    (60.0,   180.0),
-    (3.0,    10.0),
-    (15.0,   25.0),
+    (5.0, 60.0),
+    (20.0, 120.0),
+    (1000.0, 50_000.0),
+    (30.0, 300.0),
+    (1.0, 10.0),
+    (5.0, 30.0),
 ]
 
 DEFAULT_PARAMS: Dict[str, float] = {
@@ -371,6 +371,21 @@ class FishSwarm:
             best_params["beam_width"] = round(best_params["beam_width"])
             best_params["congestion_threshold"] = round(best_params["congestion_threshold"])
             return best_params
+
+    def run(self, iterations: int = 10) -> Dict[str, float]:
+        """
+        Compatibility wrapper used by server/controller orchestration.
+        Returns complete, typed optimized parameter dictionary.
+        """
+        best_params = self.optimise(iterations=iterations)
+        return {
+            "min_phase_duration": int(best_params.get("min_phase_duration", 15)),
+            "max_phase_duration": int(best_params.get("max_phase_duration", 60)),
+            "emergency_penalty": float(best_params.get("emergency_penalty", 10000)),
+            "starvation_threshold": int(best_params.get("starvation_threshold", 120)),
+            "beam_width": int(best_params.get("beam_width", 5)),
+            "congestion_threshold": int(best_params.get("congestion_threshold", 20)),
+        }
 
     @property
     def best_params(self) -> Dict[str, float]:

@@ -18,8 +18,8 @@
   <header style="display: flex; justify-content: space-between; align-items: center;">
     <h1>🚦 Smart Adaptive Traffic Controller</h1>
     <div style="display: flex; gap: 10px;">
-      <button id="btn-nav-dashboard" class="btn btn-sm active" title="Dashboard">Dashboard</button>
-      <button id="btn-nav-event-log" class="btn btn-sm" title="Event Log">Event Log</button>
+      <button id="btn-nav-dashboard" class="nav-link active" title="Dashboard">Dashboard</button>
+      <button id="btn-nav-event-log" class="nav-link" title="Event Log">Event Log</button>
       <button id="btn-theme-toggle" class="btn btn-sm" title="Toggle theme">🌙</button>
       <button id="btn-mute-toggle" class="btn btn-sm" title="Toggle sound">🔊</button>
     </div>
@@ -38,14 +38,18 @@
       <div id="split-container" class="split-container" style="display: none; margin-bottom: 10px;">
         <div class="split-canvas-wrapper">
           <h3>Adaptive AI</h3>
-          <canvas id="canvas-ai" width="250" height="250"></canvas>
-        </div>
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <div id="improvement-badge" class="improvement-badge">0%</div>
+          <canvas id="canvas-ai" width="500" height="500"></canvas>
         </div>
         <div class="split-canvas-wrapper">
           <h3>Fixed 30s Timer</h3>
-          <canvas id="canvas-fixed" width="250" height="250"></canvas>
+          <canvas id="fixedCanvas" width="500" height="500"></canvas>
+        </div>
+      </div>
+      <div id="split-comparison" style="display: none; margin-bottom: 10px;">
+        <div style="display:flex; flex-direction:column; gap:6px; font-family:'Fira Code', monospace; font-size:0.85rem;">
+          <div>Adaptive avg wait: <span id="split-adaptive-wait">0.0s</span></div>
+          <div>Fixed avg wait: <span id="split-fixed-wait">0.0s</span></div>
+          <div>Improvement: <span id="improvement-badge" class="improvement-badge">0%</span></div>
         </div>
       </div>
 
@@ -65,7 +69,8 @@
         <div id="phase-timer">Phase: -- | 0s remaining</div>
       </div>
 
-      <div class="algorithm-badge" id="algo-badge">ASTAR</div>
+      <div class="algorithm-badge" id="algo-badge">Q-Learning</div>
+      <div id="rl-stats-line" class="rl-stats-line">Q-states: 0 | ε: 0.15 | Phase: exploring</div>
 
       <table class="lane-stats">
         <thead>
@@ -113,7 +118,6 @@
         <button id="btn-inject-emergency" class="btn btn-sm">🚑 Trigger W Emergency</button>
         <button id="btn-inject-block" class="btn btn-sm">🚧 Block E Lane</button>
         <button id="btn-inject-surge" class="btn btn-sm">🌊 Peak Hour Surge</button>
-        <button id="btn-trigger-pedestrian" class="btn btn-sm">🚶 Trigger Pedestrian</button>
         <button id="btn-toggle-heatmap" class="btn btn-sm outline">🌡 Heatmap</button>
       </div>
 
@@ -144,65 +148,102 @@
 
     <!-- Bottom Controls Panel -->
     <section class="panel controls-panel">
-      <div class="controls-row main-controls">
-        <button id="btn-start" class="btn primary">▶ Start</button>
-        <button id="btn-pause" class="btn warning">⏸ Pause</button>
-        <button id="btn-reset" class="btn danger">↺ Reset</button>
-        
-        <div class="speed-toggle">
-          <span>Speed:</span>
-          <input type="radio" id="speed-1" name="speed" value="1">
-          <label for="speed-1">1x</label>
-          <input type="radio" id="speed-5" name="speed" value="5" checked>
-          <label for="speed-5">5x</label>
-          <input type="radio" id="speed-20" name="speed" value="20">
-          <label for="speed-20">20x</label>
-        </div>
+      <div class="controls-split">
+        <div class="controls-left">
+          <div class="controls-left-row">
+            <button id="btn-start" class="btn primary">▶ Start</button>
+            <button id="btn-pause" class="btn warning">⏸ Pause</button>
+            <button id="btn-reset" class="btn danger">↺ Reset</button>
+          </div>
 
-        <div class="duration-input">
-          <label for="input-duration">Run for (ticks):</label>
-          <input type="number" id="input-duration" value="5000" min="100">
-        </div>
-      </div>
-
-      <div class="controls-row advanced-controls">
-        <div class="parameters group">
-          <h3>Advanced Parameters <button id="btn-apply-params" class="btn btn-sm outline ml-2">Apply</button></h3>
-          <div class="sliders">
-            <div class="slider-group">
-              <label>Beam Width: <span id="lbl-beam">5</span></label>
-              <input type="range" id="param-beam" min="1" max="10" value="5">
+          <div class="controls-left-row">
+            <div class="speed-toggle">
+              <span>Speed:</span>
+              <input type="radio" id="speed-1" name="speed" value="1">
+              <label for="speed-1">1x</label>
+              <input type="radio" id="speed-5" name="speed" value="5" checked>
+              <label for="speed-5">5x</label>
+              <input type="radio" id="speed-20" name="speed" value="20">
+              <label for="speed-20">20x</label>
             </div>
-            <div class="slider-group">
-              <label>Congestion Thr: <span id="lbl-congestion">20</span></label>
-              <input type="range" id="param-congestion" min="5" max="30" value="20">
+
+            <div class="duration-input">
+              <label for="input-duration">Run for (ticks):</label>
+              <input type="number" id="input-duration" value="5000" min="100">
             </div>
           </div>
         </div>
 
-        <div class="group traffic-profile-group">
-          <h3>Traffic Profile</h3>
-          <select id="select-profile" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text);">
-            <option value="default">Default (Balanced)</option>
-            <option value="morning_rush">Morning Rush</option>
-            <option value="lunch">Lunch</option>
-            <option value="evening_rush">Evening Rush</option>
-            <option value="night">Night</option>
-          </select>
-        </div>
+        <div class="controls-right">
+          <div class="controls-right-row">
+            <span class="controls-label">Advanced Parameters</span>
+            <div class="sliders controls-inline-sliders">
+              <div class="slider-group">
+                <label>Beam Width: <span id="lbl-beam">5</span></label>
+                <input type="range" id="param-beam" min="1" max="10" value="5">
+              </div>
+              <div class="slider-group">
+                <label>Congestion Thr: <span id="lbl-congestion">20</span></label>
+                <input type="range" id="param-congestion" min="5" max="30" value="20">
+              </div>
+            </div>
+            <button id="btn-apply-params" class="btn btn-sm outline">Apply</button>
+            <span class="controls-label">Traffic Profile</span>
+            <select id="select-profile" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text);">
+              <option value="default">Default (Balanced)</option>
+              <option value="morning_rush">Morning Rush</option>
+              <option value="lunch">Lunch</option>
+              <option value="evening_rush">Evening Rush</option>
+              <option value="night">Night</option>
+            </select>
+          </div>
 
-        <div class="group compare-replay-group">
-          <h3>Compare & Replay</h3>
-          <button id="btn-split-compare" class="btn btn-sm outline">⚡ Split Compare</button>
-          <div class="replay-controls" style="margin-top: 8px;">
-            <button id="btn-replay" class="btn btn-sm">⏮ Replay</button>
-            <button id="btn-live" class="btn btn-sm active">↩ Live</button>
-            <input type="range" id="scrub-bar" min="0" max="0" step="1" value="0" style="width: 120px;">
-            <span id="replay-tick-display" class="replay-tick-display">Tick: 0</span>
+          <div class="controls-right-row">
+            <span class="controls-label">Compare & Replay</span>
+            <button id="btn-split-compare" class="btn btn-sm outline">⚡ Split Compare</button>
+            <div class="replay-controls">
+              <button id="btn-replay" class="btn btn-sm">⏮ Replay</button>
+              <button id="btn-live" class="btn btn-sm active">↩ Live</button>
+              <input type="range" id="scrub-bar" min="0" max="0" step="1" value="0">
+              <input type="range" id="replayBar" min="0" max="100" value="0">
+              <span id="replay-tick-display" class="replay-tick-display">Tick: 0</span>
+              <span id="replayCounter" class="replay-tick-display">0 / 0</span>
+              <select id="replay-speed-select" class="btn btn-sm">
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+          </div>
+          <div class="controls-right-row">
+            <span class="controls-label">Network</span>
+            <label for="junction-select" class="controls-label">Junction</label>
+            <select id="junction-select" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text); max-width: 120px;">
+              <option value="J1">J1</option>
+            </select>
+            <button id="btn-add-junction-toggle" class="btn btn-sm outline">+ Add Junction</button>
+          </div>
+          <div id="add-junction-form" class="controls-right-row" style="display:none;">
+            <input id="junction-id" class="input" type="text" placeholder="ID (J2)" style="max-width:80px;">
+            <input id="junction-col" class="input" type="number" placeholder="Col" value="1" style="max-width:70px;">
+            <input id="junction-row" class="input" type="number" placeholder="Row" value="0" style="max-width:70px;">
+            <input id="junction-connect-from" class="input" type="text" placeholder="From J1" value="J1" style="max-width:90px;">
+            <select id="junction-exit-lane" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text); max-width:80px;">
+              <option value="N">Exit N</option>
+              <option value="S">Exit S</option>
+              <option value="E" selected>Exit E</option>
+              <option value="W">Exit W</option>
+            </select>
+            <select id="junction-entry-lane" class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--text); max-width:90px;">
+              <option value="N">Entry N</option>
+              <option value="S">Entry S</option>
+              <option value="E">Entry E</option>
+              <option value="W" selected>Entry W</option>
+            </select>
+            <button id="btn-add-junction" class="btn btn-sm primary">Add</button>
           </div>
         </div>
       </div>
-
     </section>
 
     </div>

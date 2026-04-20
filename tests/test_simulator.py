@@ -118,17 +118,3 @@ class TestTrafficSimulator:
         with pytest.raises(ValueError):
             sim.set_profile("invalid_profile")
 
-    def test_pedestrian_phase_can_be_triggered(self):
-        """
-        Pedestrian phase can be triggered via state flag.
-        """
-        sim = TrafficSimulator(seed=42)
-        sim._state.pedestrian_waiting = True
-
-        # Simulate for enough time
-        for _ in range(70):
-            sim.tick()
-
-        # Check that pedestrian phase handling occurred
-        # (either active or completed)
-        assert sim._pedestrian_phase_active or not sim._state.pedestrian_waiting

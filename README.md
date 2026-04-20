@@ -25,7 +25,7 @@ traffic_controller/
 ├── main.py                  # Entry point — runs 500-tick simulation
 ├── models.py                # Core data structures (TrafficState, LaneState, Action)
 ├── simulator.py             # TrafficSimulator (Poisson arrivals, events, profiles)
-├── controller.py            # AdaptiveController (algorithm routing + FSO + pedestrian)
+├── controller.py            # AdaptiveController (algorithm routing + FSO)
 ├── algorithms/
 │   ├── astar.py             # A* Search (normal traffic)
 │   ├── beam_search.py       # Beam Search (peak/congested traffic)
@@ -104,7 +104,6 @@ python -m uvicorn server:app --port 8000
   - ⚡ **Split-screen comparison** (Adaptive AI vs Fixed Timer)
   - 📊 **Export chart as PNG**
   - 📋 **Past runs history** panel
-  - 🚶 **Pedestrian crossing** support
 
 ### 2. Command-Line Mode
 

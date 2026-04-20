@@ -3,14 +3,20 @@
 // ==========================================
 const canvas = document.getElementById('trafficCanvas');
 const ctx = canvas.getContext('2d');
+const canvasAi = document.getElementById('canvas-ai');
+const ctxAi = canvasAi ? canvasAi.getContext('2d') : null;
+const fixedCanvas = document.getElementById('fixedCanvas');
+const fixedCtx = fixedCanvas ? fixedCanvas.getContext('2d') : null;
 
 // Event Log Drawer toggle (overlays dashboard; no layout push)
 function setEventLogOpen(open) {
   const drawer = document.getElementById('event-log-view');
+  const btnDash = document.getElementById('btn-nav-dashboard');
   const btnLog = document.getElementById('btn-nav-event-log');
   if (!drawer) return;
   drawer.classList.toggle('open', !!open);
   drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  btnDash?.classList.toggle('active', !open);
   btnLog?.classList.toggle('active', !!open);
   if (open) {
     EventLogPage.ensureInitialized();
@@ -108,13 +114,16 @@ const SoundEngine = {
 // Session replay buffer
 let replayBuffer = [];
 let replayMode = false;
+let replayFrames = [];
+let replayIndex = 0;
+let replayInterval = null;
+let replaySpeed = 1;
 const MAX_REPLAY_BUFFER = 2000;
 
 // Split-screen comparison
 let splitMode = false;
-
-// Pedestrian phase tracking
-let pedestrianPhaseActive = false;
+let latestNetwork = {};
+let activeJunction = 'J1';
 
 // ==========================================
 // Initialization & Events
@@ -151,6 +160,36 @@ function init() {
     fetch('/api/reset', {method: 'POST'});
     vehicles = []; // clear cars
     LogStore.clear(); // clear log
+  });
+
+  document.getElementById('btn-add-junction-toggle')?.addEventListener('click', () => {
+    const form = document.getElementById('add-junction-form');
+    if (!form) return;
+    form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+  });
+
+  document.getElementById('btn-add-junction')?.addEventListener('click', async () => {
+    const id = document.getElementById('junction-id')?.value?.trim();
+    const col = Number(document.getElementById('junction-col')?.value ?? 1);
+    const row = Number(document.getElementById('junction-row')?.value ?? 0);
+    const connect_from = document.getElementById('junction-connect-from')?.value?.trim() || 'J1';
+    const exit_lane = document.getElementById('junction-exit-lane')?.value || 'E';
+    const entry_lane = document.getElementById('junction-entry-lane')?.value || 'W';
+    if (!id) return;
+    await fetch('/api/junction/add', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ id, position: [col, row], connect_from, exit_lane, entry_lane })
+    });
+  });
+
+  document.getElementById('junction-select')?.addEventListener('change', async (e) => {
+    const id = e.target.value;
+    await fetch('/api/junction/focus', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ id })
+    });
   });
 
   const speedRadios = document.getElementsByName('speed');
@@ -219,7 +258,10 @@ function init() {
   // Replay controls
   const replayBtn = document.getElementById('btn-replay');
   if (replayBtn) {
-    replayBtn.addEventListener('click', enterReplayMode);
+    replayBtn.addEventListener('click', async () => {
+      await enterReplayMode();
+      startReplayAutoplay();
+    });
   }
 
   const liveBtn = document.getElementById('btn-live');
@@ -231,23 +273,19 @@ function init() {
   if (scrubInput) {
     scrubInput.addEventListener('input', handleScrub);
   }
+  const replayBar = document.getElementById('replayBar');
+  if (replayBar) {
+    replayBar.addEventListener('input', handleReplayScrub);
+  }
+  const replaySpeedSelect = document.getElementById('replay-speed-select');
+  if (replaySpeedSelect) {
+    replaySpeedSelect.addEventListener('change', updateReplaySpeedFromUI);
+  }
 
   // Save chart button
   const saveChartBtn = document.getElementById('btn-save-chart');
   if (saveChartBtn) {
     saveChartBtn.addEventListener('click', saveChartAsPNG);
-  }
-
-  // Pedestrian trigger button
-  const pedBtn = document.getElementById('btn-trigger-pedestrian');
-  if (pedBtn) {
-    pedBtn.addEventListener('click', () => {
-      fetch('/api/inject', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ type: 'pedestrian' })
-      });
-    });
   }
 
   // Past runs panel toggle
@@ -266,6 +304,10 @@ function init() {
   requestAnimationFrame(gameLoop);
   // Drawer is hidden by default
   setEventLogOpen(false);
+  ['replayBar', 'replayCounter', 'replay-speed-select'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
 }
 
 // ==========================================
@@ -283,55 +325,95 @@ function toggleTheme() {
 // Session Replay / Scrub Bar
 // ==========================================
 function updateScrubBar() {
-  const scrubInput = document.getElementById('scrub-bar');
+  const scrubInput = document.getElementById('replayBar');
   const tickDisplay = document.getElementById('replay-tick-display');
-  if (scrubInput) {
-    scrubInput.max = Math.max(0, replayBuffer.length - 1);
-    if (!replayMode) {
-      scrubInput.value = replayBuffer.length - 1;
-    }
+  const replayCounter = document.getElementById('replayCounter');
+  if (!scrubInput) return;
+  scrubInput.max = Math.max(0, replayFrames.length - 1);
+  scrubInput.value = String(replayIndex);
+  if (tickDisplay && replayFrames.length > 0) {
+    const frame = replayFrames[replayIndex] || replayFrames[0];
+    if (frame) tickDisplay.innerText = `Tick: ${frame.tick}`;
   }
-  if (tickDisplay && replayMode && replayBuffer.length > 0) {
-    const idx = parseInt(document.getElementById('scrub-bar')?.value || 0);
-    const frame = replayBuffer[idx];
-    if (frame) {
-      tickDisplay.innerText = `Tick: ${frame.tick}`;
-    }
+  if (replayCounter) {
+    replayCounter.innerText = `${replayFrames.length ? replayIndex : 0} / ${Math.max(0, replayFrames.length - 1)}`;
   }
 }
 
-function enterReplayMode() {
+async function enterReplayMode() {
+  clearInterval(replayInterval);
+  replayInterval = null;
   replayMode = true;
-  document.getElementById('btn-replay').classList.add('active');
-  document.getElementById('btn-live').classList.remove('active');
+  const response = await fetch('/api/replay/frames/range?start=0&end=2000');
+  replayFrames = await response.json();
+  replayIndex = 0;
+  ['replayBar', 'replayCounter', 'replay-speed-select'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = '';
+  });
+  updateScrubBar();
+  renderReplayFrame(0);
 }
 
 function exitReplayMode() {
+  clearInterval(replayInterval);
+  replayInterval = null;
   replayMode = false;
-  document.getElementById('btn-replay').classList.remove('active');
-  document.getElementById('btn-live').classList.add('active');
-  // Resume live updates
+  ['replayBar', 'replayCounter', 'replay-speed-select'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+function renderReplayFrame(index) {
+  if (!replayFrames.length) return;
+  replayIndex = Math.max(0, Math.min(index, replayFrames.length - 1));
+  const frame = replayFrames[replayIndex];
+  handleFrame(frame, { isReplay: true });
+  const replayLogContainer = document.getElementById('event-log-items');
+  if (replayLogContainer) {
+    replayLogContainer.innerHTML = `<div class="log-line">${frame.log || ''}</div>`;
+  }
+  updateScrubBar();
+}
+
+function startReplayAutoplay() {
+  if (!replayMode || replayFrames.length === 0) return;
+  clearInterval(replayInterval);
+  replayInterval = setInterval(() => {
+    replayIndex += 1;
+    if (replayIndex >= replayFrames.length) {
+      clearInterval(replayInterval);
+      replayInterval = null;
+      return;
+    }
+    renderReplayFrame(replayIndex);
+  }, 1000 / (replaySpeed * 5));
+}
+
+function handleReplayScrub(e) {
+  if (!replayMode) return;
+  clearInterval(replayInterval);
+  replayInterval = null;
+  replayIndex = parseInt(e.target.value, 10) || 0;
+  renderReplayFrame(replayIndex);
+}
+
+function updateReplaySpeedFromUI() {
+  const sel = document.getElementById('replay-speed-select');
+  replaySpeed = sel ? parseFloat(sel.value || '1') : 1;
+  if (replayInterval) {
+    startReplayAutoplay();
+  }
 }
 
 function handleScrub(e) {
-  if (!replayMode || replayBuffer.length === 0) return;
-  const idx = parseInt(e.target.value);
-  const frame = replayBuffer[idx];
-  if (frame) {
-    // Update lights, metrics, and sync vehicles with this frame
-    updateLightsFromFrame(frame);
-    updateMetrics(frame);
-    syncVehicles(frame.lanes, frame.phase);
-    // Update display
-    const tickDisplay = document.getElementById('replay-tick-display');
-    if (tickDisplay) {
-      tickDisplay.innerText = `Tick: ${frame.tick}`;
-    }
-  }
+  handleReplayScrub(e);
 }
 
 function updateLightsFromFrame(frame) {
   currentPhase = frame.phase;
+  splitMode = !!frame.split_mode;
 }
 
 // ==========================================
@@ -348,29 +430,40 @@ function toggleSplitMode() {
     if (container) container.style.display = 'flex';
     if (comparison) comparison.style.display = 'block';
     // Enable split mode on server
-    fetch('/api/split', { method: 'POST', body: JSON.stringify({ enabled: true }) });
+    fetch('/api/split', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ enabled: true })
+    });
   } else {
     btn?.classList.remove('active');
     if (container) container.style.display = 'none';
     if (comparison) comparison.style.display = 'none';
-    fetch('/api/split', { method: 'POST', body: JSON.stringify({ enabled: false }) });
+    fetch('/api/split', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ enabled: false })
+    });
   }
 }
 
 function updateSplitComparison(frame) {
-  if (!frame.fixed) return;
+  if (!frame.split_mode || !frame.fixed) return;
 
-  const aiWait = frame.stats?.avg_wait_current || 0;
+  const aiWait = frame.stats?.avg_wait_astar || frame.stats?.avg_wait_current || 0;
   const fixedWait = frame.fixed?.avg_wait || 0;
 
   const improvementEl = document.getElementById('improvement-badge');
+  const adaptiveWaitEl = document.getElementById('split-adaptive-wait');
+  const fixedWaitEl = document.getElementById('split-fixed-wait');
   if (improvementEl && fixedWait > 0) {
     const improvement = ((fixedWait - aiWait) / fixedWait * 100);
-    const isPositive = improvement > 0;
-    improvementEl.innerText = `${Math.abs(improvement).toFixed(1)}% ${isPositive ? 'faster' : 'slower'}`;
-    improvementEl.style.backgroundColor = isPositive ? '#00e676' : '#ff1744';
-    improvementEl.style.color = isPositive ? '#000' : '#fff';
+    improvementEl.innerText = `${improvement.toFixed(1)}%`;
+    improvementEl.style.backgroundColor = improvement >= 0 ? '#00e676' : '#ff1744';
+    improvementEl.style.color = improvement >= 0 ? '#000' : '#fff';
   }
+  if (adaptiveWaitEl) adaptiveWaitEl.innerText = `${aiWait.toFixed(1)}s`;
+  if (fixedWaitEl) fixedWaitEl.innerText = `${fixedWait.toFixed(1)}s`;
 
   // Update comparison bar in metrics panel
   const barFixed = document.getElementById('bar-split-fixed');
@@ -380,6 +473,58 @@ function updateSplitComparison(frame) {
     valFixed.innerText = fixedWait.toFixed(1) + 's';
     barFixed.style.width = `${(fixedWait / maxBar) * 100}%`;
   }
+}
+
+function renderFixedCanvas(frame) {
+  if (!fixedCtx || !fixedCanvas) return;
+  if (!frame.split_mode || !frame.fixed || !frame.fixed.lanes) {
+    fixedCanvas.style.display = 'none';
+    return;
+  }
+  fixedCanvas.style.display = 'block';
+  fixedCtx.clearRect(0, 0, fixedCanvas.width, fixedCanvas.height);
+  drawRoads(fixedCtx, frame.fixed.lanes);
+  drawLights(fixedCtx, frame.fixed.phase, frame.fixed.lanes);
+  drawVehiclesForState(fixedCtx, frame.fixed.lanes, frame.fixed.phase);
+}
+
+function renderAdaptiveSplitCanvas(frame) {
+  if (!ctxAi || !canvasAi) return;
+  if (!frame.split_mode) {
+    canvasAi.style.display = 'none';
+    return;
+  }
+  canvasAi.style.display = 'block';
+  ctxAi.clearRect(0, 0, canvasAi.width, canvasAi.height);
+  drawRoads(ctxAi, frame.lanes);
+  drawLights(ctxAi, frame.phase, frame.lanes);
+  drawVehiclesForState(ctxAi, frame.lanes, frame.phase);
+}
+
+function drawVehiclesForState(renderCtx, lanes, phase) {
+  if (!lanes) return;
+  const configs = {
+    N: { x: 225, y0: 25, dx: 0, dy: 16, vertical: true },
+    S: { x: 275, y0: 475, dx: 0, dy: -16, vertical: true },
+    E: { x: 475, y0: 225, dx: -16, dy: 0, vertical: false },
+    W: { x: 25, y0: 275, dx: 16, dy: 0, vertical: false },
+  };
+  ["N", "S", "E", "W"].forEach((dir) => {
+    const lane = lanes[dir];
+    if (!lane) return;
+    const cfg = configs[dir];
+    const isGreen = phase === "NS" ? (dir === "N" || dir === "S") : (dir === "E" || dir === "W");
+    for (let i = 0; i < Math.min(12, lane.count || 0); i++) {
+      const x = cfg.x + cfg.dx * i;
+      const y = cfg.y0 + cfg.dy * i;
+      renderCtx.fillStyle = lane.blocked ? "#ff9800" : (isGreen ? "#4FC3F7" : "#8080aa");
+      if (cfg.vertical) {
+        renderCtx.fillRect(x - 4, y - 7, 8, 14);
+      } else {
+        renderCtx.fillRect(x - 7, y - 4, 14, 8);
+      }
+    }
+  });
 }
 
 // ==========================================
@@ -546,25 +691,44 @@ function connect() {
   ws.onmessage = (e) => handleFrame(JSON.parse(e.data));
 }
 
-function handleFrame(frame) {
+function maybeApplyLiveParams(frame) {
+  if (!frame.live_params) return;
+  const beam = document.getElementById('param-beam');
+  const thr = document.getElementById('param-congestion');
+  const lblBeam = document.getElementById('lbl-beam');
+  const lblThr = document.getElementById('lbl-congestion');
+
+  if (beam && document.activeElement !== beam && Number.isFinite(frame.live_params.beam_width)) {
+    beam.value = String(frame.live_params.beam_width);
+    if (lblBeam) lblBeam.innerText = beam.value;
+  }
+  if (thr && document.activeElement !== thr && Number.isFinite(frame.live_params.congestion_threshold)) {
+    thr.value = String(frame.live_params.congestion_threshold);
+    if (lblThr) lblThr.innerText = thr.value;
+  }
+}
+
+function handleFrame(frame, options = {}) {
+  const isReplay = !!options.isReplay;
   // In replay mode, ignore live frames
-  if (replayMode) return;
+  if (replayMode && !isReplay) return;
 
   previousLaneState = targetLaneState ? JSON.parse(JSON.stringify(targetLaneState)) : null;
   targetLaneState = frame.lanes;
   frameTimestamp = performance.now();
   lastFrameTime = Date.now();
   currentPhase = frame.phase;
+  latestNetwork = frame.network || {};
+  activeJunction = frame.active_junction || 'J1';
 
   // Update tick interval based on current speed setting
   tickIntervalMs = 1000 / speed;
 
-  // Add to replay buffer
-  replayBuffer.push(JSON.parse(JSON.stringify(frame)));
-  if (replayBuffer.length > MAX_REPLAY_BUFFER) {
-    replayBuffer.shift();
+  // Add to local replay buffer for fallback
+  if (!isReplay) {
+    replayBuffer.push(JSON.parse(JSON.stringify(frame)));
+    if (replayBuffer.length > MAX_REPLAY_BUFFER) replayBuffer.shift();
   }
-  updateScrubBar();
 
   // Handle sounds
   if (frame.action === 'SWITCH_PHASE' || frame.action === 'SWITCH') {
@@ -586,10 +750,20 @@ function handleFrame(frame) {
     }
   }
 
+  maybeApplyLiveParams(frame);
   updateMetrics(frame);
-  updateLog(frame);
-  syncVehicles(frame.lanes, frame.phase);
+  if (!isReplay) {
+    updateLog(frame);
+  }
+  syncVehicles(frame.lanes, frame.phase, frame.lane_intents || {}, frame.exiting_vehicles || []);
   updateChart(frame);
+  renderAdaptiveSplitCanvas(frame);
+  renderFixedCanvas(frame);
+
+  if (splitMode) {
+    document.getElementById('split-container')?.style.setProperty('display', 'flex');
+    document.getElementById('split-comparison')?.style.setProperty('display', 'block');
+  }
 }
 
 // ==========================================
@@ -601,18 +775,18 @@ const lerp = (a, b, t) => a + (b - a) * t;
 function gameLoop(now) {
   // If frozen (disconnected), just redraw the last known state without advancing
   if (wsIsFrozen) {
-    drawRoads();
+    drawRoads(ctx, targetLaneState);
     if (heatmapOn) drawHeatmap();
-    drawLights();
+    drawLights(ctx, currentPhase, targetLaneState);
     drawFrozenVehicles();
     requestAnimationFrame(gameLoop);
     return;
   }
 
   ctx.clearRect(0, 0, 500, 500);
-  drawRoads();
+  drawRoads(ctx, targetLaneState);
   if (heatmapOn) drawHeatmap();
-  drawLights();
+  drawLights(ctx, currentPhase, targetLaneState);
 
   // Calculate interpolation alpha based on time since last frame
   let alpha = 1;
@@ -622,84 +796,21 @@ function gameLoop(now) {
   }
 
   moveAndDrawVehicles(alpha);
-
-  // Draw pedestrians if pedestrian phase is active
-  if (pedestrianPhaseActive) {
-    drawPedestrians();
-  }
+  drawNetworkMap();
 
   if (fishSwarmActive && (now - fishSwarmStartTime < 1500)) {
     drawFishSwarmDots(now);
   }
 
+  if (replayMode) {
+    ctx.fillStyle = 'rgba(255, 200, 0, 0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffd600';
+    ctx.font = 'bold 13px monospace';
+    ctx.fillText(`⏪ REPLAY  ${replayIndex} / ${replayFrames.length}`, 10, 20);
+  }
+
   requestAnimationFrame(gameLoop);
-}
-
-// ==========================================
-// Pedestrian Drawing
-// ==========================================
-function drawPedestrians() {
-  // Draw small white stick figures crossing at each zebra stripe
-  // 4 crossing zones, one per corner of the intersection box
-  const corners = [
-    { x: 200, y: 200 }, // NW corner
-    { x: 300, y: 200 }, // NE corner
-    { x: 200, y: 300 }, // SW corner
-    { x: 300, y: 300 }  // SE corner
-  ];
-
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = 2;
-
-  corners.forEach((corner, idx) => {
-    const offset = idx * 10; // Stagger the pedestrians slightly
-    const isAltFrame = flashToggle; // Toggle between 2 sprite frames
-
-    // Draw stick figure
-    const px = corner.x + (idx % 2 === 0 ? -15 : 15) + offset;
-    const py = corner.y + (idx < 2 ? -15 : 15);
-
-    ctx.save();
-    ctx.translate(px, py);
-
-    // Head (circle)
-    ctx.beginPath();
-    ctx.arc(0, -8, 3, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Body (vertical line)
-    ctx.beginPath();
-    ctx.moveTo(0, -5);
-    ctx.lineTo(0, 5);
-    ctx.stroke();
-
-    // Arms
-    if (isAltFrame) {
-      // Arms raised
-      ctx.beginPath();
-      ctx.moveTo(0, -3);
-      ctx.lineTo(-5, -8);
-      ctx.moveTo(0, -3);
-      ctx.lineTo(5, -8);
-      ctx.stroke();
-    } else {
-      // Simple cross arms
-      ctx.beginPath();
-      ctx.moveTo(-5, 0);
-      ctx.lineTo(5, 0);
-      ctx.stroke();
-    }
-
-    // Legs
-    ctx.beginPath();
-    ctx.moveTo(0, 5);
-    ctx.lineTo(-4, 12);
-    ctx.moveTo(0, 5);
-    ctx.lineTo(4, 12);
-    ctx.stroke();
-
-    ctx.restore();
-  });
 }
 
 function drawFrozenVehicles() {
@@ -711,39 +822,65 @@ function drawFrozenVehicles() {
   });
 }
 
-function drawRoads() {
-  ctx.fillStyle = '#2d2d2d';
+function drawRoads(renderCtx = ctx, laneState = targetLaneState) {
+  renderCtx.fillStyle = '#2d2d2d';
   // Vertical
-  ctx.fillRect(200, 0, 100, 500);
+  renderCtx.fillRect(200, 0, 100, 500);
   // Horizontal
-  ctx.fillRect(0, 200, 500, 100);
+  renderCtx.fillRect(0, 200, 500, 100);
   
   // Sidewalks
-  ctx.fillStyle = '#3a3a3a';
-  ctx.fillRect(190, 0, 10, 200); ctx.fillRect(300, 0, 10, 200); // N
-  ctx.fillRect(190, 300, 10, 200); ctx.fillRect(300, 300, 10, 200); // S
-  ctx.fillRect(0, 190, 200, 10); ctx.fillRect(0, 300, 200, 10); // W
-  ctx.fillRect(300, 190, 200, 10); ctx.fillRect(300, 300, 200, 10); // E
+  renderCtx.fillStyle = '#3a3a3a';
+  renderCtx.fillRect(190, 0, 10, 200); renderCtx.fillRect(300, 0, 10, 200); // N
+  renderCtx.fillRect(190, 300, 10, 200); renderCtx.fillRect(300, 300, 10, 200); // S
+  renderCtx.fillRect(0, 190, 200, 10); renderCtx.fillRect(0, 300, 200, 10); // W
+  renderCtx.fillRect(300, 190, 200, 10); renderCtx.fillRect(300, 300, 200, 10); // E
 
   // Corners
-  ctx.beginPath(); ctx.arc(200, 200, 10, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(300, 200, 10, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(200, 300, 10, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(300, 300, 10, 0, Math.PI*2); ctx.fill();
+  renderCtx.beginPath(); renderCtx.arc(200, 200, 10, 0, Math.PI*2); renderCtx.fill();
+  renderCtx.beginPath(); renderCtx.arc(300, 200, 10, 0, Math.PI*2); renderCtx.fill();
+  renderCtx.beginPath(); renderCtx.arc(200, 300, 10, 0, Math.PI*2); renderCtx.fill();
+  renderCtx.beginPath(); renderCtx.arc(300, 300, 10, 0, Math.PI*2); renderCtx.fill();
 
   // Markings
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 2;
-  ctx.setLineDash([10, 15]);
+  renderCtx.strokeStyle = '#ffffff';
+  renderCtx.lineWidth = 2;
+  renderCtx.setLineDash([10, 15]);
   // N
-  ctx.beginPath(); ctx.moveTo(250, 0); ctx.lineTo(250, 200); ctx.stroke();
+  renderCtx.beginPath(); renderCtx.moveTo(250, 0); renderCtx.lineTo(250, 200); renderCtx.stroke();
   // S
-  ctx.beginPath(); ctx.moveTo(250, 300); ctx.lineTo(250, 500); ctx.stroke();
+  renderCtx.beginPath(); renderCtx.moveTo(250, 300); renderCtx.lineTo(250, 500); renderCtx.stroke();
   // E
-  ctx.beginPath(); ctx.moveTo(300, 250); ctx.lineTo(500, 250); ctx.stroke();
+  renderCtx.beginPath(); renderCtx.moveTo(300, 250); renderCtx.lineTo(500, 250); renderCtx.stroke();
   // W
-  ctx.beginPath(); ctx.moveTo(0, 250); ctx.lineTo(200, 250); ctx.stroke();
-  ctx.setLineDash([]);
+  renderCtx.beginPath(); renderCtx.moveTo(0, 250); renderCtx.lineTo(200, 250); renderCtx.stroke();
+  renderCtx.setLineDash([]);
+
+  // Blocked lane overlays / markers
+  if (laneState) {
+    const blockedOverlays = {
+      N: { x: 210, y: 0, w: 80, h: 200, markX: 235, markY: 170 },
+      S: { x: 210, y: 300, w: 80, h: 200, markX: 235, markY: 330 },
+      E: { x: 300, y: 210, w: 200, h: 80, markX: 330, markY: 235 },
+      W: { x: 0, y: 210, w: 200, h: 80, markX: 170, markY: 235 },
+    };
+    Object.keys(blockedOverlays).forEach((dir) => {
+      if (!laneState[dir]?.blocked) return;
+      const o = blockedOverlays[dir];
+      renderCtx.fillStyle = 'rgba(255, 140, 0, 0.3)';
+      renderCtx.fillRect(o.x, o.y, o.w, o.h);
+      renderCtx.strokeStyle = '#ff9800';
+      renderCtx.lineWidth = 3;
+      renderCtx.beginPath();
+      renderCtx.moveTo(o.markX - 10, o.markY - 10);
+      renderCtx.lineTo(o.markX + 10, o.markY + 10);
+      renderCtx.moveTo(o.markX + 10, o.markY - 10);
+      renderCtx.lineTo(o.markX - 10, o.markY + 10);
+      renderCtx.stroke();
+      renderCtx.font = '18px Inter';
+      renderCtx.fillText('🚧', o.markX + 12, o.markY + 6);
+    });
+  }
 }
 
 // Heatmap alpha values for smooth lerp
@@ -799,37 +936,37 @@ function drawHeatmap() {
   });
 }
 
-function drawLights() {
-  const nsGreen = currentPhase === "NS";
+function drawLights(renderCtx = ctx, phase = currentPhase, laneState = targetLaneState) {
+  const nsGreen = phase === "NS";
   
   const drawLight = (gx, gy, isGreen, hasEmergency) => {
-    ctx.fillStyle = '#111';
-    ctx.beginPath(); ctx.roundRect(gx-8, gy-20, 16, 40, 4); ctx.fill();
-    ctx.strokeStyle = '#000'; ctx.stroke();
+    renderCtx.fillStyle = '#111';
+    renderCtx.beginPath(); renderCtx.roundRect(gx-8, gy-20, 16, 40, 4); renderCtx.fill();
+    renderCtx.strokeStyle = '#000'; renderCtx.stroke();
     
     // Red 
-    ctx.beginPath(); ctx.arc(gx, gy-12, 4, 0, Math.PI*2);
-    ctx.fillStyle = isGreen ? '#400' : (hasEmergency && (Date.now()%500<250) ? '#400' : '#f00');
-    if (!isGreen) { ctx.shadowColor='#f00'; ctx.shadowBlur=10; }
-    ctx.fill(); ctx.shadowBlur=0;
+    renderCtx.beginPath(); renderCtx.arc(gx, gy-12, 4, 0, Math.PI*2);
+    renderCtx.fillStyle = isGreen ? '#400' : (hasEmergency && (Date.now()%500<250) ? '#400' : '#f00');
+    if (!isGreen) { renderCtx.shadowColor='#f00'; renderCtx.shadowBlur=10; }
+    renderCtx.fill(); renderCtx.shadowBlur=0;
     
     // Yellow flash for emergency
-    ctx.beginPath(); ctx.arc(gx, gy, 4, 0, Math.PI*2);
-    ctx.fillStyle = (!isGreen && hasEmergency && (Date.now()%500<250)) ? '#ff0' : '#440';
-    if (!isGreen && hasEmergency && (Date.now()%500<250)) { ctx.shadowColor='#ff0'; ctx.shadowBlur=10; }
-    ctx.fill(); ctx.shadowBlur=0;
+    renderCtx.beginPath(); renderCtx.arc(gx, gy, 4, 0, Math.PI*2);
+    renderCtx.fillStyle = (!isGreen && hasEmergency && (Date.now()%500<250)) ? '#ff0' : '#440';
+    if (!isGreen && hasEmergency && (Date.now()%500<250)) { renderCtx.shadowColor='#ff0'; renderCtx.shadowBlur=10; }
+    renderCtx.fill(); renderCtx.shadowBlur=0;
 
     // Green
-    ctx.beginPath(); ctx.arc(gx, gy+12, 4, 0, Math.PI*2);
-    ctx.fillStyle = isGreen ? '#0f0' : '#040';
-    if (isGreen) { ctx.shadowColor='#0f0'; ctx.shadowBlur=10; }
-    ctx.fill(); ctx.shadowBlur=0;
+    renderCtx.beginPath(); renderCtx.arc(gx, gy+12, 4, 0, Math.PI*2);
+    renderCtx.fillStyle = isGreen ? '#0f0' : '#040';
+    if (isGreen) { renderCtx.shadowColor='#0f0'; renderCtx.shadowBlur=10; }
+    renderCtx.fill(); renderCtx.shadowBlur=0;
   };
 
-  const nsEmergN = targetLaneState?.N?.emergency || false;
-  const nsEmergS = targetLaneState?.S?.emergency || false;
-  const ewEmergE = targetLaneState?.E?.emergency || false;
-  const ewEmergW = targetLaneState?.W?.emergency || false;
+  const nsEmergN = laneState?.N?.emergency || false;
+  const nsEmergS = laneState?.S?.emergency || false;
+  const ewEmergE = laneState?.E?.emergency || false;
+  const ewEmergW = laneState?.W?.emergency || false;
 
   drawLight(215, 155, nsGreen, nsEmergN); // N
   drawLight(265, 335, nsGreen, nsEmergS); // S
@@ -837,8 +974,44 @@ function drawLights() {
   drawLight(155, 265, !nsGreen, ewEmergW); // W
 }
 
-function syncVehicles(lanes, phase) {
+function getExitLane(lane, intent) {
+  const key = `${lane}:${intent}`;
+  const map = {
+    'N:straight': 'S', 'N:turn_left': 'E', 'N:turn_right': 'W',
+    'S:straight': 'N', 'S:turn_left': 'W', 'S:turn_right': 'E',
+    'E:straight': 'W', 'E:turn_left': 'S', 'E:turn_right': 'N',
+    'W:straight': 'E', 'W:turn_left': 'N', 'W:turn_right': 'S'
+  };
+  return map[key] || 'S';
+}
+
+function getTurnPath(lane, intent) {
+  const ENTRY = { N:{x:230,y:200}, S:{x:270,y:300}, E:{x:300,y:230}, W:{x:200,y:270} };
+  const EXIT  = { N:{x:230,y:100}, S:{x:270,y:400}, E:{x:400,y:230}, W:{x:100,y:270} };
+  const entry = ENTRY[lane];
+  const exitDir = getExitLane(lane, intent);
+  const exit = EXIT[exitDir];
+  if (!entry || !exit) return [];
+  if (intent === 'straight') {
+    return [entry, {x: (entry.x + exit.x) / 2, y: (entry.y + exit.y) / 2}, exit];
+  }
+  const R = 40;
+  const ctrl = {
+    x: entry.x + (exit.x - entry.x) * 0.3 + (intent === 'turn_right' ? R : -R),
+    y: entry.y + (exit.y - entry.y) * 0.3 + (intent === 'turn_right' ? R : -R)
+  };
+  return [entry, ctrl, exit];
+}
+
+function syncVehicles(lanes, phase, laneIntents = {}, exitingVehicles = []) {
   // Add missing vehicles with prevPosition/targetPosition for interpolation
+  const exitingByLane = exitingVehicles.reduce((acc, v) => {
+    const key = v.from;
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(v);
+    return acc;
+  }, {});
+
   ['N', 'S', 'E', 'W'].forEach(dir => {
     const laneInfo = lanes[dir];
     let laneVehicles = vehicles.filter(v => v.lane === dir && !v.leaving);
@@ -868,7 +1041,12 @@ function syncVehicles(lanes, phase) {
         id: nextVehicleId++, lane: dir,
         position: startPos, prevPosition: startPos, targetPosition: 0,
         color: vehiclePalette[Math.floor(Math.random()*vehiclePalette.length)],
-        type: 'car', leaving: false
+        type: 'car', leaving: false,
+        intent: 'straight',
+        exitLane: getExitLane(dir, 'straight'),
+        exitPosition: 0,
+        phase: 'approaching',
+        pathPoints: []
       });
       laneVehicles = vehicles.filter(v => v.lane === dir && !v.leaving);
     }
@@ -877,6 +1055,12 @@ function syncVehicles(lanes, phase) {
       // Front vehicles leave
       laneVehicles.sort((a,b) => b.position - a.position);
       laneVehicles[0].leaving = true;
+      const out = (exitingByLane[dir] || []).shift();
+      laneVehicles[0].intent = out?.intent || laneVehicles[0].intent || 'straight';
+      laneVehicles[0].exitLane = out?.to || getExitLane(dir, laneVehicles[0].intent);
+      laneVehicles[0].phase = laneVehicles[0].intent === 'straight' ? 'exiting' : 'turning';
+      laneVehicles[0].exitPosition = 0;
+      laneVehicles[0].pathPoints = getTurnPath(dir, laneVehicles[0].intent);
       laneVehicles.shift();
     }
 
@@ -888,9 +1072,21 @@ function syncVehicles(lanes, phase) {
     laneVehicles.forEach((v, idx) => {
       // Store current position as previous before setting new target
       v.prevPosition = v.position;
+      if (laneInfo.blocked) {
+        v.targetPosition = v.position; // blocked lanes do not move forward
+        return;
+      }
       if (isGreen) {
         v.targetPosition = 1.0; // move past intersection
-        if (v.position > 0.8) v.leaving = true;
+        if (v.position > 0.8) {
+          const out = (exitingByLane[dir] || []).shift();
+          v.leaving = true;
+          v.intent = out?.intent || v.intent || 'straight';
+          v.exitLane = out?.to || getExitLane(dir, v.intent);
+          v.phase = v.intent === 'straight' ? 'exiting' : 'turning';
+          v.exitPosition = 0;
+          v.pathPoints = getTurnPath(dir, v.intent);
+        }
       } else {
          // stack up based on idx
          const stopLine = 0.85;
@@ -905,8 +1101,14 @@ function moveAndDrawVehicles(alpha) {
   // Move vehicles with interpolation
   for (let i = vehicles.length - 1; i >= 0; i--) {
     const v = vehicles[i];
+    const laneBlocked = !!targetLaneState?.[v.lane]?.blocked;
 
-    if (v.leaving) {
+    if (laneBlocked) {
+      v.position = v.prevPosition;
+    } else if (v.phase === 'turning') {
+      v.exitPosition = Math.min(1, (v.exitPosition || 0) + 0.06 * speed);
+      if (v.exitPosition >= 1) v.phase = 'exiting';
+    } else if (v.leaving) {
       v.position += 0.05 * speed; // Exit speed
     } else {
       // Linear interpolation between prev and target position
@@ -937,6 +1139,28 @@ function drawVehicle(v, alpha = 1) {
   } else if (v.lane === 'W') {
     vx = lerp(-20, cx, v.position); vy = 275;
   } else {
+    return;
+  }
+
+  if (v.phase === 'turning' && Array.isArray(v.pathPoints) && v.pathPoints.length === 3) {
+    const [p0, p1, p2] = v.pathPoints;
+    const t = Math.max(0, Math.min(1, v.exitPosition || 0));
+    const prevT = Math.max(0, t - 0.03);
+    const bx = (1-t)*(1-t)*p0.x + 2*(1-t)*t*p1.x + t*t*p2.x;
+    const by = (1-t)*(1-t)*p0.y + 2*(1-t)*t*p1.y + t*t*p2.y;
+    const prevBx = (1-prevT)*(1-prevT)*p0.x + 2*(1-prevT)*prevT*p1.x + prevT*prevT*p2.x;
+    const prevBy = (1-prevT)*(1-prevT)*p0.y + 2*(1-prevT)*prevT*p1.y + prevT*prevT*p2.y;
+    vx = bx;
+    vy = by;
+    const angle = Math.atan2(by - prevBy, bx - prevBx);
+    ctx.save();
+    ctx.translate(vx, vy);
+    ctx.rotate(angle);
+    ctx.fillStyle = v.color;
+    ctx.beginPath();
+    ctx.roundRect(-10, -5, 20, 10, 3);
+    ctx.fill();
+    ctx.restore();
     return;
   }
 
@@ -1003,29 +1227,46 @@ function updateMetrics(frame) {
   document.getElementById('phase-timer').innerText = `Phase: ${frame.phase}-Green | ${frame.phase_timer}s active`;
 
   const badge = document.getElementById('algo-badge');
-  badge.innerText = frame.algorithm;
-  badge.className = `algorithm-badge badge-${frame.algorithm.toLowerCase()}`;
+  if (frame.algorithm === 'EMERGENCY') {
+    badge.innerText = 'EMERGENCY';
+    badge.className = 'algorithm-badge badge-emergency';
+    badge.style.backgroundColor = '';
+    badge.style.color = '';
+  } else if (frame.algorithm === 'AO_STAR') {
+    badge.innerText = 'AO*';
+    badge.className = 'algorithm-badge badge-ao_star';
+    badge.style.backgroundColor = '';
+    badge.style.color = '';
+  } else {
+    badge.innerText = 'Q-Learning';
+    badge.className = 'algorithm-badge';
+    badge.style.backgroundColor = '#00e5ff';
+    badge.style.color = '#001018';
+  }
+
+  const rlStatsLine = document.getElementById('rl-stats-line');
+  if (rlStatsLine && frame.rl) {
+    rlStatsLine.innerText = `Q-states: ${frame.rl.q_table_size} | ε: ${frame.rl.epsilon} | Phase: ${frame.rl.training_phase}`;
+  }
 
   // Update split-screen comparison if active
   if (splitMode && frame.fixed) {
     updateSplitComparison(frame);
   }
 
-  // Track pedestrian phase
-  pedestrianPhaseActive = frame.pedestrian_waiting || frame.action === 'PEDESTRIAN_PHASE';
-  
   const tbody = document.getElementById('lane-table-body');
   tbody.innerHTML = '';
   ['N', 'S', 'E', 'W'].forEach(dir => {
     const info = frame.lanes[dir];
+    const intents = frame.lane_intents?.[dir] || { straight: 0, turn_left: 0, turn_right: 0 };
     const tr = document.createElement('tr');
     let statusText = info.green ? '🟢 GREEN' : '🔴 RED';
     if (info.emergency) statusText += ' 🚑';
-    if (info.blocked) statusText = '🚧 BLOCKED';
+    if (info.blocked) statusText = '<span style="background:#ff9800;color:#111;padding:2px 8px;border-radius:999px;font-weight:700;">BLOCKED</span>';
     
     tr.innerHTML = `
       <td>${dir}</td>
-      <td>${info.count}</td>
+      <td>${info.count} cars | ↑${intents.straight || 0} ←${intents.turn_left || 0} →${intents.turn_right || 0}</td>
       <td>${info.wait.toFixed(1)}</td>
       <td>${statusText}</td>
     `;
@@ -1041,6 +1282,59 @@ function updateMetrics(frame) {
   
   document.getElementById('val-fixed').innerText = valFixed.toFixed(1) + 's';
   document.getElementById('bar-fixed').style.width = `${(valFixed / maxBar) * 100}%`;
+
+  syncJunctionSelect(frame);
+}
+
+function syncJunctionSelect(frame) {
+  const select = document.getElementById('junction-select');
+  if (!select || !frame.network) return;
+  const ids = Object.keys(frame.network);
+  ids.forEach((id) => {
+    if (![...select.options].some(opt => opt.value === id)) {
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = id;
+      select.appendChild(opt);
+    }
+  });
+  if (frame.active_junction) select.value = frame.active_junction;
+}
+
+function drawNetworkMap() {
+  if (!latestNetwork || Object.keys(latestNetwork).length <= 1) return;
+  const mapX = 360, mapY = 10, cellSize = 30, pad = 4;
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(mapX - pad, mapY - pad, 120 + pad * 2, 80 + pad * 2);
+
+  for (const [jid, jstate] of Object.entries(latestNetwork)) {
+    const [col, row] = jstate.position || [0, 0];
+    const x = mapX + col * cellSize;
+    const y = mapY + row * cellSize;
+    ctx.strokeStyle = jid === activeJunction ? '#00e676' : '#666';
+    ctx.lineWidth = jid === activeJunction ? 2 : 1;
+    ctx.strokeRect(x, y, cellSize - 4, cellSize - 4);
+    ctx.fillStyle = jstate.phase === 'NS' ? '#1a7a3a' : '#1a3a7a';
+    ctx.fillRect(x + 1, y + 1, cellSize - 6, cellSize - 6);
+    ctx.fillStyle = '#fff';
+    ctx.font = '8px monospace';
+    ctx.fillText(jid, x + 4, y + 14);
+  }
+  ctx.strokeStyle = '#888';
+  ctx.lineWidth = 0.5;
+  for (const [jidA, a] of Object.entries(latestNetwork)) {
+    for (const [jidB, b] of Object.entries(latestNetwork)) {
+      if (jidA >= jidB) continue;
+      const [ac, ar] = a.position || [0, 0];
+      const [bc, br] = b.position || [0, 0];
+      if (Math.abs(ac - bc) + Math.abs(ar - br) === 1) {
+        ctx.beginPath();
+        ctx.moveTo(mapX + ac * cellSize + 13, mapY + ar * cellSize + 13);
+        ctx.lineTo(mapX + bc * cellSize + 13, mapY + br * cellSize + 13);
+        ctx.stroke();
+      }
+    }
+  }
 }
 
 // ==========================================

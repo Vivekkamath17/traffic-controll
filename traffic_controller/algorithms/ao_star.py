@@ -33,6 +33,21 @@ from traffic_controller.models import Action, TrafficState
 from traffic_controller.utils.cost import cost, heuristic
 
 
+class AOStarPlanner:
+    @staticmethod
+    def get_green_lanes(phase: str) -> list[str]:
+        return list(phase)
+
+    def solve(self, state: TrafficState) -> Action:
+        blocked = [lid for lid, l in state.lanes.items() if l.is_blocked]
+        active = [lid for lid in ["N", "S", "E", "W"] if lid not in blocked]
+        # Keep variable to make lane filtering explicit for future tree building.
+        _ = active
+        if any(l in self.get_green_lanes(state.current_phase) for l in blocked):
+            return Action.SWITCH_PHASE
+        return ao_star(state)
+
+
 # ---------------------------------------------------------------------------
 # Node types
 # ---------------------------------------------------------------------------
@@ -455,6 +470,9 @@ def ao_star(
         If the extracted action string is not a valid Action enum value.
     """
     params = params or {}
+    blocked = [lid for lid, l in initial_state.lanes.items() if l.is_blocked]
+    if any(l in list(initial_state.current_phase) for l in blocked):
+        return Action.SWITCH_PHASE
     root = _build_and_or_tree(initial_state, depth=0, max_depth=max_depth, params=params)
     _propagate_costs_full_tree(root, params)
     best_action_str = _extract_best_first_action(root)

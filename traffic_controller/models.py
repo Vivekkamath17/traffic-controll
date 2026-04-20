@@ -32,7 +32,42 @@ class Action(Enum):
     KEEP_PHASE = auto()
     SWITCH_PHASE = auto()
     EMERGENCY_OVERRIDE = auto()
-    PEDESTRIAN_PHASE = auto()
+
+
+class VehicleIntent(Enum):
+    STRAIGHT = "straight"
+    TURN_LEFT = "turn_left"
+    TURN_RIGHT = "turn_right"
+
+
+@dataclass
+class VehicleRecord:
+    id: str
+    entry_lane: str
+    intent: VehicleIntent
+    exit_lane: str
+    ticks_waiting: int = 0
+    served: bool = False
+
+
+INTENT_MAP = {
+    ("N", VehicleIntent.STRAIGHT): "S",
+    ("N", VehicleIntent.TURN_LEFT): "E",
+    ("N", VehicleIntent.TURN_RIGHT): "W",
+    ("S", VehicleIntent.STRAIGHT): "N",
+    ("S", VehicleIntent.TURN_LEFT): "W",
+    ("S", VehicleIntent.TURN_RIGHT): "E",
+    ("E", VehicleIntent.STRAIGHT): "W",
+    ("E", VehicleIntent.TURN_LEFT): "S",
+    ("E", VehicleIntent.TURN_RIGHT): "N",
+    ("W", VehicleIntent.STRAIGHT): "E",
+    ("W", VehicleIntent.TURN_LEFT): "N",
+    ("W", VehicleIntent.TURN_RIGHT): "S",
+}
+
+
+def get_exit_lane(entry: str, intent: VehicleIntent) -> str:
+    return INTENT_MAP[(entry, intent)]
 
 
 @dataclass
@@ -59,6 +94,11 @@ class LaneState:
     has_emergency: bool = False
     is_blocked: bool = False
     arrival_rate: float = 0.3  # Poisson lambda default
+    intent_counts: Dict[str, int] = field(default_factory=lambda: {
+        "straight": 0,
+        "turn_left": 0,
+        "turn_right": 0,
+    })
 
     def __post_init__(self) -> None:
         """Validate that vehicle_count stays in the allowed range."""
@@ -75,6 +115,7 @@ class LaneState:
             has_emergency=self.has_emergency,
             is_blocked=self.is_blocked,
             arrival_rate=self.arrival_rate,
+            intent_counts=dict(self.intent_counts),
         )
 
 
@@ -93,12 +134,9 @@ class TrafficState:
         Number of seconds the current phase has been active.
     timestamp : int
         Simulation tick counter (seconds since start).
-    pedestrian_waiting : bool
-        True when pedestrians are waiting to cross (triggers pedestrian phase).
     """
 
     lanes: Dict[str, LaneState] = field(default_factory=dict)
-    pedestrian_waiting: bool = False
     current_phase: str = "NS"
     phase_duration: int = 0
     timestamp: int = 0
@@ -146,7 +184,6 @@ class TrafficState:
             current_phase=self.current_phase,
             phase_duration=self.phase_duration,
             timestamp=self.timestamp,
-            pedestrian_waiting=self.pedestrian_waiting,
         )
 
     def __repr__(self) -> str:
@@ -155,3 +192,17 @@ class TrafficState:
             f"TrafficState(tick={self.timestamp}, phase={self.current_phase}, "
             f"phase_dur={self.phase_duration}s, vehicles={counts})"
         )
+
+
+@dataclass
+class Junction:
+    id: str
+    position: tuple
+    state: TrafficState
+    connected_junctions: dict
+
+
+@dataclass
+class NetworkState:
+    junctions: dict[str, Junction]
+    connections: list[tuple]

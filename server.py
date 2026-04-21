@@ -94,6 +94,9 @@ class ProfileRequest(BaseModel):
 class SplitRequest(BaseModel):
     enabled: bool
 
+class SpeedRequest(BaseModel):
+    speed: int = 5
+
 class AddJunctionRequest(BaseModel):
     id: str
     position: list[int]
@@ -119,7 +122,17 @@ async def get_event_log_page():
 @app.post("/api/start")
 async def start_simulation(req: StartRequest):
     global simulation_task, is_paused, simulation_speed
-    async def pre_warm(n_ticks=200):
+
+    # Cancel any running simulation first
+    if simulation_task and not simulation_task.done():
+        simulation_task.cancel()
+        try:
+            await simulation_task
+        except asyncio.CancelledError:
+            pass
+        simulation_task = None
+
+    async def pre_warm(n_ticks=50):
         for _ in range(n_ticks):
             focus_sim = network.junctions[active_junction_id]
             s = focus_sim.get_state()
@@ -135,13 +148,14 @@ async def start_simulation(req: StartRequest):
             network.tick_all()
             new = focus_sim.get_state()
             controller.record_outcome(prev, new, False)
+
     async with sim_lock:
         simulation_speed = req.speed
         is_paused = False
+        pause_event.set()  # Ensure not paused when starting
         await pre_warm()
-        
-    if simulation_task is None or simulation_task.done():
-        simulation_task = asyncio.create_task(simulation_loop(req.duration))
+
+    simulation_task = asyncio.create_task(simulation_loop(req.duration))
     return {"status": "started", "session_id": "session_1"}
 
 @app.post("/api/pause")
@@ -159,19 +173,18 @@ async def pause_simulation():
 async def reset_simulation():
     global simulator, controller, simulation_task, is_paused, current_session_id, session_frames, session_start_time, fixed_sim, split_mode, network, main_sim, active_junction_id
 
-    # If paused, clear pause event first
-    if is_paused:
-        pause_event.set()
+    # Always unblock pause_event so any waiting coroutine can exit
+    pause_event.set()
 
-    # Acquire lock to ensure no tick is running
+    # Cancel running simulation without holding the lock (avoids deadlock)
+    if simulation_task and not simulation_task.done():
+        simulation_task.cancel()
+        try:
+            await simulation_task
+        except asyncio.CancelledError:
+            pass
+
     async with sim_lock:
-        if simulation_task and not simulation_task.done():
-            simulation_task.cancel()
-            try:
-                await simulation_task
-            except asyncio.CancelledError:
-                pass
-
         # Save current session if exists
         if current_session_id and session_frames:
             await save_session_to_db()
@@ -270,6 +283,13 @@ async def set_profile(req: ProfileRequest):
     async with sim_lock:
         network.junctions.get(active_junction_id, simulator).set_profile(req.profile)
     return {"status": "profile_set", "profile": req.profile}
+
+@app.post("/api/speed")
+async def update_speed(req: SpeedRequest):
+    """Live-update the simulation speed without restarting."""
+    global simulation_speed
+    simulation_speed = max(1, req.speed)
+    return {"status": "speed_updated", "speed": simulation_speed}
 
 @app.post("/api/split")
 async def toggle_split(req: SplitRequest):
@@ -452,9 +472,11 @@ async def simulation_loop(duration: int):
     session_start_time = time.time()
 
     for tick in range(duration):
-        # Wait if paused (using Event for cleaner async handling)
-        if is_paused:
-            await pause_event.wait()
+        # ==== PAUSE HANDLING ====
+        # Wait until resume. Use a short-sleep polling approach so
+        # CancelledError propagates cleanly on reset.
+        while is_paused:
+            await asyncio.sleep(0.05)
 
         # Before tick
         focus_sim = network.junctions.get(active_junction_id, simulator)
@@ -546,8 +568,9 @@ async def simulation_loop(duration: int):
             frame["log"] = fso_log
             await broadcast(frame)
 
-        # Tick delay
-        await asyncio.sleep(1.0 / simulation_speed)
+        # Tick delay — 1 second divided by speed multiplier
+        # speed=1 → 1.0s/tick, speed=5 → 0.2s/tick, speed=20 → 0.05s/tick
+        await asyncio.sleep(1.0 / max(1, simulation_speed))
 
     # Save session on completion
     await save_session_to_db()

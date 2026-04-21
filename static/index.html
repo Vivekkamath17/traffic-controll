@@ -115,11 +115,21 @@
       
       <div class="scenarios group">
         <h3>Scenarios / Inject</h3>
-        <button id="btn-inject-emergency" class="btn btn-sm">🚑 Trigger W Emergency</button>
         <button id="btn-inject-block" class="btn btn-sm">🚧 Block E Lane</button>
         <button id="btn-inject-surge" class="btn btn-sm">🌊 Peak Hour Surge</button>
         <button id="btn-toggle-heatmap" class="btn btn-sm outline">🌡 Heatmap</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px;">
+          <span style="color:var(--text-muted);font-size:0.8rem;white-space:nowrap;">🚑 Ambulance lane:</span>
+          <select id="ambulance-lane" style="background:rgba(0,0,0,0.35);border:1px solid var(--border);color:var(--text);padding:3px 7px;border-radius:5px;font-size:0.82rem;">
+            <option value="N">North ↓</option>
+            <option value="S">South ↑</option>
+            <option value="E">East ←</option>
+            <option value="W" selected>West →</option>
+          </select>
+          <button id="btn-inject-ambulance" class="btn btn-sm" style="background:#b71c1c;color:#fff;border:none;font-weight:600;">🚑 Dispatch</button>
+        </div>
       </div>
+
 
       <div class="group history-group">
         <h3>History</h3>

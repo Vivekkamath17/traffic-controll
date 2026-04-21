@@ -48,6 +48,7 @@ let targetLaneState = null;
 let frameTimestamp = performance.now();
 let lastFrameTime = Date.now();
 let tickIntervalMs = 200; // speed=5 -> 200ms (1000/5)
+let latestFrame = null;    // most-recent server frame for overlay drawing
 
 let currentPhase = "NS";
 let fishSwarmActive = false;
@@ -148,18 +149,29 @@ function init() {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ duration: parseInt(dur), speed: speed })
+    }).then(() => {
+      setSimState('running');
     });
     if (!ws || ws.readyState !== WebSocket.OPEN) {
       connect();
     }
   });
 
-  document.getElementById('btn-pause').addEventListener('click', () => fetch('/api/pause', {method: 'POST'}));
+  document.getElementById('btn-pause').addEventListener('click', () => {
+    fetch('/api/pause', {method: 'POST'}).then(r => r.json()).then(data => {
+      setSimState(data.status === 'paused' ? 'paused' : 'running');
+    });
+  });
   
   document.getElementById('btn-reset').addEventListener('click', () => {
-    fetch('/api/reset', {method: 'POST'});
-    vehicles = []; // clear cars
-    LogStore.clear(); // clear log
+    fetch('/api/reset', {method: 'POST'}).then(() => {
+      vehicles = [];
+      LogStore.clear();
+      setSimState('idle');
+      // Re-establish WS after reset
+      if (ws) { ws.close(); }
+      setTimeout(() => connect(), 300);
+    });
   });
 
   document.getElementById('btn-add-junction-toggle')?.addEventListener('click', () => {
@@ -195,11 +207,16 @@ function init() {
   const speedRadios = document.getElementsByName('speed');
   speedRadios.forEach(r => r.addEventListener('change', (e) => {
     speed = parseInt(e.target.value);
-    fetch('/api/start', { // restart with new speed
+    // Only update backend speed — don't restart the simulation
+    fetch('/api/speed', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ duration: 5000, speed: speed })
+      body: JSON.stringify({ speed: speed })
+    }).catch(() => {
+      // Fallback: /api/speed may not exist yet, silently ignore
     });
+    // Update frontend tick interval immediately
+    tickIntervalMs = 1000 / speed;
   }));
   
   document.getElementById('btn-apply-params').addEventListener('click', () => {
@@ -216,9 +233,13 @@ function init() {
   document.getElementById('param-congestion').addEventListener('input', e => document.getElementById('lbl-congestion').innerText = e.target.value);
 
   // Scenarios
-  document.getElementById('btn-inject-emergency').addEventListener('click', () => fetch('/api/inject', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type: 'emergency', lane: 'W'}) }));
   document.getElementById('btn-inject-block').addEventListener('click', () => fetch('/api/inject', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type: 'block', lane: 'E'}) }));
   document.getElementById('btn-inject-surge').addEventListener('click', () => fetch('/api/inject', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type: 'surge'}) }));
+  // Ambulance dispatch
+  document.getElementById('btn-inject-ambulance')?.addEventListener('click', () => {
+    const lane = document.getElementById('ambulance-lane')?.value || 'W';
+    fetch('/api/inject', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type: 'emergency', lane}) });
+  });
   
   document.getElementById('btn-toggle-heatmap').addEventListener('click', () => heatmapOn = !heatmapOn);
 
@@ -308,6 +329,29 @@ function init() {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
+}
+
+// ==========================================
+// Sim State UI Management
+// ==========================================
+function setSimState(state) {
+  // state: 'idle' | 'running' | 'paused'
+  const btnStart = document.getElementById('btn-start');
+  const btnPause = document.getElementById('btn-pause');
+  const btnReset = document.getElementById('btn-reset');
+
+  if (state === 'idle') {
+    btnStart?.classList.remove('active');
+    btnPause?.classList.remove('active');
+    btnPause.textContent = '⏸ Pause';
+  } else if (state === 'running') {
+    btnStart?.classList.add('active');
+    btnPause?.classList.remove('active');
+    btnPause.textContent = '⏸ Pause';
+  } else if (state === 'paused') {
+    btnPause?.classList.add('active');
+    btnPause.textContent = '▶ Resume';
+  }
 }
 
 // ==========================================
@@ -710,6 +754,7 @@ function maybeApplyLiveParams(frame) {
 
 function handleFrame(frame, options = {}) {
   const isReplay = !!options.isReplay;
+  latestFrame = frame; // always keep latest for overlay
   // In replay mode, ignore live frames
   if (replayMode && !isReplay) return;
 
@@ -788,14 +833,8 @@ function gameLoop(now) {
   if (heatmapOn) drawHeatmap();
   drawLights(ctx, currentPhase, targetLaneState);
 
-  // Calculate interpolation alpha based on time since last frame
-  let alpha = 1;
-  if (targetLaneState) {
-    const elapsed = Date.now() - lastFrameTime;
-    alpha = clamp(elapsed / tickIntervalMs, 0, 1);
-  }
-
-  moveAndDrawVehicles(alpha);
+  moveAndDrawVehicles();
+  if (latestFrame) drawAdaptiveOverlay(latestFrame);
   drawNetworkMap();
 
   if (fishSwarmActive && (now - fishSwarmStartTime < 1500)) {
@@ -814,12 +853,7 @@ function gameLoop(now) {
 }
 
 function drawFrozenVehicles() {
-  // Draw vehicles at their last known positions when disconnected
-  vehicles.forEach(v => {
-    if (v.position > 0) {
-      drawVehicle(v, 1);
-    }
-  });
+  vehicles.forEach(v => drawVehicle(v));
 }
 
 function drawRoads(renderCtx = ctx, laneState = targetLaneState) {
@@ -1004,218 +1038,432 @@ function getTurnPath(lane, intent) {
 }
 
 function syncVehicles(lanes, phase, laneIntents = {}, exitingVehicles = []) {
-  // Add missing vehicles with prevPosition/targetPosition for interpolation
   const exitingByLane = exitingVehicles.reduce((acc, v) => {
     const key = v.from;
     if (!acc[key]) acc[key] = [];
     acc[key].push(v);
-    return acc;
-  }, {});
+  // ==========================================
+// VEHICLE PATH SYSTEM v3 — Full Intersection Crossing
+// ==========================================
 
-  ['N', 'S', 'E', 'W'].forEach(dir => {
-    const laneInfo = lanes[dir];
-    let laneVehicles = vehicles.filter(v => v.lane === dir && !v.leaving);
+// Bezier crossing paths per lane:intent → [p0, ctrl, p2]
+// p0 = stop-line entry, p2 = exit-arm entry point
+const CROSS_PATHS = {
+  'N:straight':    [{x:235,y:200},{x:242,y:250},{x:235,y:300}],
+  'N:turn_right':  [{x:235,y:200},{x:220,y:243},{x:200,y:266}],
+  'N:turn_left':   [{x:235,y:200},{x:254,y:227},{x:300,y:234}],
+  'S:straight':    [{x:265,y:300},{x:258,y:250},{x:265,y:200}],
+  'S:turn_right':  [{x:265,y:300},{x:278,y:257},{x:300,y:234}],
+  'S:turn_left':   [{x:265,y:300},{x:248,y:273},{x:200,y:266}],
+  'E:straight':    [{x:300,y:234},{x:250,y:238},{x:200,y:266}],
+  'E:turn_right':  [{x:300,y:234},{x:270,y:218},{x:265,y:200}],
+  'E:turn_left':   [{x:300,y:234},{x:278,y:256},{x:235,y:300}],
+  'W:straight':    [{x:200,y:266},{x:250,y:262},{x:300,y:266}],
+  'W:turn_right':  [{x:200,y:266},{x:230,y:282},{x:235,y:300}],
+  'W:turn_left':   [{x:200,y:266},{x:220,y:247},{x:265,y:200}],
+};
 
-    // if emergency, ensure one emergency vehicle at the back
-    if (laneInfo.emergency) {
-      if (!laneVehicles.some(v => v.type === 'emergency')) {
-        vehicles.push({
-          id: nextVehicleId++, lane: dir,
-          position: 0, prevPosition: 0, targetPosition: 0,
-          color: '#f00', type: 'emergency', leaving: false
-        });
-        laneVehicles = vehicles.filter(v => v.lane === dir && !v.leaving);
-      }
+// Departure unit-vector (dx,dy) from the crossing end point
+const DEPART_VEC = {
+  'N:straight':    {dx: 0, dy: 1},   // exits south
+  'N:turn_right':  {dx:-1, dy: 0},   // exits west
+  'N:turn_left':   {dx: 1, dy: 0},   // exits east
+  'S:straight':    {dx: 0, dy:-1},   // exits north
+  'S:turn_right':  {dx: 1, dy: 0},   // exits east
+  'S:turn_left':   {dx:-1, dy: 0},   // exits west
+  'E:straight':    {dx:-1, dy: 0},   // exits west
+  'E:turn_right':  {dx: 0, dy:-1},   // exits north
+  'E:turn_left':   {dx: 0, dy: 1},   // exits south
+  'W:straight':    {dx: 1, dy: 0},   // exits east
+  'W:turn_right':  {dx: 0, dy: 1},   // exits south
+  'W:turn_left':   {dx: 0, dy:-1},   // exits north
+};
+
+// Approach lane pixel geometry
+const APPROACH_GEO = {
+  N: {isVert:true,  cx:235, spawnFrom:-22, stopAt:200},
+  S: {isVert:true,  cx:265, spawnFrom:522, stopAt:300},
+  E: {isVert:false, cy:234, spawnFrom:522, stopAt:300},
+  W: {isVert:false, cy:266, spawnFrom:-22, stopAt:200},
+};
+// Direction sign (+1 = increasing coord going toward stop line, -1 = decreasing)
+const APPROACH_SIGN = {N:1, S:-1, E:-1, W:1};
+
+const QUEUE_GAP     = 22;   // px between queued vehicles
+const CROSS_SPEED   = 0.022; // bezier t per animation frame (~45 frames to cross)
+const DEPART_SPEED  = 2.0;   // px per frame after crossing
+const APPROACH_SPEED = 2.2;  // px per frame moving to queue slot
+
+// Delta tracking for crossing triggers
+let _prevCounts = {N:0, S:0, E:0, W:0};
+
+// ─── Bezier helpers ───────────────────────────────────────────────
+function _bezPt(t, p0, p1, p2) {
+  const m = 1 - t;
+  return { x: m*m*p0.x + 2*m*t*p1.x + t*t*p2.x,
+           y: m*m*p0.y + 2*m*t*p1.y + t*t*p2.y };
+}
+function _bezAngle(t, p0, p1, p2) {
+  const m = 1 - t;
+  return Math.atan2(
+    2*m*(p1.y-p0.y) + 2*t*(p2.y-p1.y),
+    2*m*(p1.x-p0.x) + 2*t*(p2.x-p1.x)
+  );
+}
+function _distStop(v) {
+  const g = APPROACH_GEO[v.lane];
+  return g.isVert ? Math.abs(v.y - g.stopAt) : Math.abs(v.x - g.stopAt);
+}
+function _approachAngle(lane) {
+  return {N: Math.PI/2, S: -Math.PI/2, E: Math.PI, W: 0}[lane] ?? 0;
+}
+
+// ─── Vehicle factory ─────────────────────────────────────────────
+function _makeVehicle(lane, type, intent) {
+  const g = APPROACH_GEO[lane];
+  // Spawn at a random point in the approach lane (not at far end to avoid pile-ups)
+  const spawnFrac = 0.15 + Math.random() * 0.4;
+  const spanPx = Math.abs(g.stopAt - g.spawnFrom);
+  const sign = APPROACH_SIGN[lane];
+  const ox = g.isVert ? 0 : (g.spawnFrom + sign * spawnFrac * spanPx);
+  const oy = g.isVert ? (g.spawnFrom + sign * spawnFrac * spanPx) : 0;
+  const x  = g.isVert ? g.cx : ox;
+  const y  = g.isVert ? oy   : g.cy;
+  return {
+    id: nextVehicleId++, lane, type,
+    intent: intent || 'straight',
+    state: 'approaching',  // approaching | waiting | crossing | departing
+    x, y,
+    targetX: x, targetY: y,
+    angle: _approachAngle(lane),
+    crossPath: null, crossProgress: 0,
+    departDx: 0, departDy: 0,
+    color: type === 'ambulance'
+      ? '#ffffff'
+      : vehiclePalette[Math.floor(Math.random() * vehiclePalette.length)],
+  };
+}
+
+function _startCrossing(v, intent) {
+  v.intent = intent || v.intent || 'straight';
+  const key  = `${v.lane}:${v.intent}`;
+  const path = CROSS_PATHS[key] || CROSS_PATHS[`${v.lane}:straight`];
+  v.state = 'crossing';
+  v.crossPath = path;
+  v.crossProgress = 0.001;
+  v.x = path[0].x;
+  v.y = path[0].y;
+  v.angle = _bezAngle(0.001, path[0], path[1], path[2]);
+}
+
+// ─── Main sync (called once per server tick) ─────────────────────
+function syncVehicles(lanes, phase, laneIntents = {}, exitingVehicles = []) {
+  // Build per-lane exit-intent queues
+  const intentQ = {N:[], S:[], E:[], W:[]};
+  (exitingVehicles || []).forEach(ev => {
+    if (intentQ[ev.from]) intentQ[ev.from].push(ev.intent || 'straight');
+  });
+
+  ['N','S','E','W'].forEach(dir => {
+    const info = lanes[dir];
+    if (!info) return;
+    const newCount  = info.count || 0;
+    const oldCount  = _prevCounts[dir] || 0;
+    const isGreen   = phase === 'NS' ? (dir==='N'||dir==='S') : (dir==='E'||dir==='W');
+    const g         = APPROACH_GEO[dir];
+    const sign      = APPROACH_SIGN[dir];
+
+    // ── Ambulance/Emergency ──────────────────────────────────────
+    if (info.emergency) {
+      const hasAmb = vehicles.some(v =>
+        v.lane === dir && v.type === 'ambulance' &&
+        (v.state === 'approaching' || v.state === 'waiting'));
+      if (!hasAmb) vehicles.push(_makeVehicle(dir, 'ambulance', 'straight'));
     } else {
-      // remove emergency if cleared
-      const evIdx = vehicles.findIndex(v => v.lane === dir && v.type === 'emergency');
-      if (evIdx !== -1) {
-        vehicles[evIdx].type = 'car';
-        vehicles[evIdx].color = vehiclePalette[Math.floor(Math.random()*vehiclePalette.length)];
-      }
-    }
-
-    while (laneVehicles.length < laneInfo.count) {
-      const startPos = Math.random() * -0.5;
-      vehicles.push({
-        id: nextVehicleId++, lane: dir,
-        position: startPos, prevPosition: startPos, targetPosition: 0,
-        color: vehiclePalette[Math.floor(Math.random()*vehiclePalette.length)],
-        type: 'car', leaving: false,
-        intent: 'straight',
-        exitLane: getExitLane(dir, 'straight'),
-        exitPosition: 0,
-        phase: 'approaching',
-        pathPoints: []
-      });
-      laneVehicles = vehicles.filter(v => v.lane === dir && !v.leaving);
-    }
-
-    while (laneVehicles.length > laneInfo.count) {
-      // Front vehicles leave
-      laneVehicles.sort((a,b) => b.position - a.position);
-      laneVehicles[0].leaving = true;
-      const out = (exitingByLane[dir] || []).shift();
-      laneVehicles[0].intent = out?.intent || laneVehicles[0].intent || 'straight';
-      laneVehicles[0].exitLane = out?.to || getExitLane(dir, laneVehicles[0].intent);
-      laneVehicles[0].phase = laneVehicles[0].intent === 'straight' ? 'exiting' : 'turning';
-      laneVehicles[0].exitPosition = 0;
-      laneVehicles[0].pathPoints = getTurnPath(dir, laneVehicles[0].intent);
-      laneVehicles.shift();
-    }
-
-    // Assign proper target positions for queueing
-    laneVehicles.sort((a,b) => b.position - a.position);
-
-    const isGreen = phase === 'NS' ? (dir === 'N' || dir === 'S') : (dir === 'E' || dir === 'W');
-
-    laneVehicles.forEach((v, idx) => {
-      // Store current position as previous before setting new target
-      v.prevPosition = v.position;
-      if (laneInfo.blocked) {
-        v.targetPosition = v.position; // blocked lanes do not move forward
-        return;
-      }
-      if (isGreen) {
-        v.targetPosition = 1.0; // move past intersection
-        if (v.position > 0.8) {
-          const out = (exitingByLane[dir] || []).shift();
-          v.leaving = true;
-          v.intent = out?.intent || v.intent || 'straight';
-          v.exitLane = out?.to || getExitLane(dir, v.intent);
-          v.phase = v.intent === 'straight' ? 'exiting' : 'turning';
-          v.exitPosition = 0;
-          v.pathPoints = getTurnPath(dir, v.intent);
+      vehicles.forEach(v => {
+        if (v.lane === dir && v.type === 'ambulance' &&
+            (v.state === 'approaching' || v.state === 'waiting')) {
+          v.type  = 'car';
+          v.color = vehiclePalette[Math.floor(Math.random() * vehiclePalette.length)];
         }
-      } else {
-         // stack up based on idx
-         const stopLine = 0.85;
-         const spacing = 0.12;
-         v.targetPosition = Math.max(0.0, stopLine - idx * spacing);
+      });
+    }
+
+    // ── Add vehicles when count rises ───────────────────────────
+    const queueing = () => vehicles.filter(v =>
+      v.lane === dir && (v.state === 'approaching' || v.state === 'waiting'));
+    const deficit = newCount - queueing().length;
+    for (let i = 0; i < Math.max(0, deficit); i++) {
+      vehicles.push(_makeVehicle(dir, 'car', intentQ[dir].shift() || 'straight'));
+    }
+
+    // ── Trigger crossings when count drops ──────────────────────
+    const passed = Math.max(0, oldCount - newCount);
+    if (passed > 0) {
+      const front = queueing()
+        .sort((a, b) => _distStop(a) - _distStop(b)); // closest to stop line first
+      const toRelease = Math.min(passed, front.length);
+      for (let i = 0; i < toRelease; i++) {
+        _startCrossing(front[i], intentQ[dir].shift() || 'straight');
       }
+    }
+
+    // ── Remove excess (reset / teleport) ────────────────────────
+    const surplus = queueing().length - newCount;
+    if (surplus > 0) {
+      queueing()
+        .sort((a, b) => _distStop(b) - _distStop(a)) // furthest spawned first
+        .slice(0, surplus)
+        .forEach(v => { v.state = 'done'; });
+    }
+
+    _prevCounts[dir] = newCount;
+
+    // ── Assign queue target positions (smooth creep forward) ────
+    const inQueue = queueing().sort((a, b) => _distStop(a) - _distStop(b));
+    inQueue.forEach((v, idx) => {
+      if (info.blocked) { v.targetX = v.x; v.targetY = v.y; return; }
+      if (g.isVert) {
+        v.targetX = g.cx;
+        v.targetY = g.stopAt - sign * idx * QUEUE_GAP;
+      } else {
+        v.targetX = g.stopAt - sign * idx * QUEUE_GAP;
+        v.targetY = g.cy;
+      }
+      if (_distStop(v) < 4) v.state = 'waiting';
     });
   });
+
+  // Clean up done vehicles
+  vehicles = vehicles.filter(v => v.state !== 'done');
 }
 
-function moveAndDrawVehicles(alpha) {
-  // Move vehicles with interpolation
+// ─── Animation loop (60 fps) ─────────────────────────────────────
+function moveAndDrawVehicles() {
   for (let i = vehicles.length - 1; i >= 0; i--) {
     const v = vehicles[i];
-    const laneBlocked = !!targetLaneState?.[v.lane]?.blocked;
 
-    if (laneBlocked) {
-      v.position = v.prevPosition;
-    } else if (v.phase === 'turning') {
-      v.exitPosition = Math.min(1, (v.exitPosition || 0) + 0.06 * speed);
-      if (v.exitPosition >= 1) v.phase = 'exiting';
-    } else if (v.leaving) {
-      v.position += 0.05 * speed; // Exit speed
-    } else {
-      // Linear interpolation between prev and target position
-      v.position = lerp(v.prevPosition, v.targetPosition, alpha);
-    }
+    if (v.state === 'approaching' || v.state === 'waiting') {
+      // Lerp toward queue target
+      const dx = v.targetX - v.x, dy = v.targetY - v.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > 0.5) {
+        const step = Math.min(APPROACH_SPEED, dist);
+        v.x += (dx / dist) * step;
+        v.y += (dy / dist) * step;
+      } else {
+        v.x = v.targetX; v.y = v.targetY;
+      }
 
-    if (v.position > 1.2) {
-      vehicles.splice(i, 1); // remove
-    } else {
-      drawVehicle(v, alpha);
-    }
+    } else if (v.state === 'crossing') {
+      v.crossProgress = Math.min(1, v.crossProgress + CROSS_SPEED);
+      const [p0, p1, p2] = v.crossPath;
+      const t  = Math.max(0.001, Math.min(0.999, v.crossProgress));
+      const pt = _bezPt(t, p0, p1, p2);
+      v.x = pt.x; v.y = pt.y;
+      v.angle = _bezAngle(t, p0, p1, p2);
+      if (v.crossProgress >= 1) {
+        // Transition to departing
+        const key = `${v.lane}:${v.intent}`;
+        const dv  = DEPART_VEC[key] || {dx:0, dy:1};
+        v.state    = 'departing';
+        v.departDx = dv.dx;
+        v.departDy = dv.dy;
+        v.angle    = Math.atan2(dv.dy, dv.dx);
+      }
+
+    } else if (v.state === 'departing') {
+      v.x += v.departDx * DEPART_SPEED;
+      v.y += v.departDy * DEPART_SPEED;
+      if (v.x < -35 || v.x > 535 || v.y < -35 || v.y > 535) {
+        vehicles.splice(i, 1);
+        continue;
+      }
+    } else { continue; }
+
+    drawVehicle(v);
   }
 }
 
-function drawVehicle(v, alpha = 1) {
-  if (v.position <= 0) return; // not entered yet
-
-  let vx, vy; // vehicle center position on canvas
-  const cx = 250, cy = 250;
-
-  // Calculate vehicle center position based on lane and position
-  if (v.lane === 'N') {
-    vx = 225; vy = lerp(-20, cy, v.position);
-  } else if (v.lane === 'S') {
-    vx = 275; vy = lerp(520, cy, v.position);
-  } else if (v.lane === 'E') {
-    vx = lerp(520, cx, v.position); vy = 225;
-  } else if (v.lane === 'W') {
-    vx = lerp(-20, cx, v.position); vy = 275;
-  } else {
-    return;
-  }
-
-  if (v.phase === 'turning' && Array.isArray(v.pathPoints) && v.pathPoints.length === 3) {
-    const [p0, p1, p2] = v.pathPoints;
-    const t = Math.max(0, Math.min(1, v.exitPosition || 0));
-    const prevT = Math.max(0, t - 0.03);
-    const bx = (1-t)*(1-t)*p0.x + 2*(1-t)*t*p1.x + t*t*p2.x;
-    const by = (1-t)*(1-t)*p0.y + 2*(1-t)*t*p1.y + t*t*p2.y;
-    const prevBx = (1-prevT)*(1-prevT)*p0.x + 2*(1-prevT)*prevT*p1.x + prevT*prevT*p2.x;
-    const prevBy = (1-prevT)*(1-prevT)*p0.y + 2*(1-prevT)*prevT*p1.y + prevT*prevT*p2.y;
-    vx = bx;
-    vy = by;
-    const angle = Math.atan2(by - prevBy, bx - prevBx);
-    ctx.save();
-    ctx.translate(vx, vy);
-    ctx.rotate(angle);
-    ctx.fillStyle = v.color;
-    ctx.beginPath();
-    ctx.roundRect(-10, -5, 20, 10, 3);
-    ctx.fill();
-    ctx.restore();
-    return;
-  }
-
-  // Vehicle dimensions
-  const w = 20, h = 10; // horizontal base dimensions
-
+// ─── Vehicle renderer ────────────────────────────────────────────
+function drawVehicle(v) {
+  const W = 18, H = 10; // along-travel × perpendicular
   ctx.save();
-  ctx.translate(vx, vy);
+  ctx.translate(v.x, v.y);
+  ctx.rotate(v.angle);
 
-  // Apply rotation based on lane direction
-  // N → Math.PI (travelling south toward intersection)
-  // S → 0
-  // E → -Math.PI / 2
-  // W → Math.PI / 2
-  if (v.lane === 'N') {
-    ctx.rotate(Math.PI);
-  } else if (v.lane === 'S') {
-    ctx.rotate(0);
-  } else if (v.lane === 'E') {
-    ctx.rotate(-Math.PI / 2);
-  } else if (v.lane === 'W') {
-    ctx.rotate(Math.PI / 2);
+  if (v.type === 'ambulance') {
+    // Flashing white body
+    if (flashToggle) { ctx.shadowColor = '#ff1744'; ctx.shadowBlur = 20; }
+    ctx.fillStyle = flashToggle ? '#ffffff' : '#ffcccc';
+    ctx.beginPath(); ctx.roundRect(-W/2, -H/2, W, H, 3); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Red cross
+    ctx.fillStyle = '#c62828';
+    ctx.fillRect(-2, -H/2 + 1, 4, H - 2);   // vertical bar
+    ctx.fillRect(-W/2 + 3, -2, W - 6, 4);   // horizontal bar
+
+    // Alternating siren lights at front corners
+    ctx.fillStyle = flashToggle ? '#2979ff' : '#ff1744';
+    ctx.beginPath(); ctx.arc(-W/2 + 3, -H/2 + 3, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = flashToggle ? '#ff1744' : '#2979ff';
+    ctx.beginPath(); ctx.arc(-W/2 + 3,  H/2 - 3, 2.5, 0, Math.PI*2); ctx.fill();
+
+    // Light bar glow on roof
+    if (flashToggle) {
+      ctx.fillStyle = 'rgba(255,23,68,0.6)';
+      ctx.fillRect(-W/4, -H/2, W/2, 3);
+    }
+  } else {
+    // Regular car body
+    ctx.fillStyle = v.color;
+    ctx.beginPath(); ctx.roundRect(-W/2, -H/2, W, H, 3); ctx.fill();
+
+    // Windshield (front = positive-x in vehicle frame)
+    ctx.fillStyle = 'rgba(180,230,255,0.55)';
+    ctx.beginPath(); ctx.roundRect(W/2 - 7, -H/2 + 2, 5, H-4, 1); ctx.fill();
+
+    // Headlights
+    ctx.fillStyle = '#fffde7';
+    ctx.fillRect(W/2 - 2, -H/2 + 1, 2, 2);
+    ctx.fillRect(W/2 - 2,  H/2 - 3, 2, 2);
+
+    // Tail-lights
+    ctx.fillStyle = '#ff5252';
+    ctx.fillRect(-W/2, -H/2 + 1, 2, 2);
+    ctx.fillRect(-W/2,  H/2 - 3, 2, 2);
   }
-
-  // Draw vehicle rectangle centered at (0, 0) after rotation
-  ctx.fillStyle = v.color;
-  ctx.beginPath();
-  ctx.roundRect(-w/2, -h/2, w, h, 3);
-  ctx.fill();
-
-  // Emergency vehicles get flashing red/white alternating fill
-  if (v.type === 'emergency') {
-    // Toggle between red and white every 400ms
-    ctx.fillStyle = flashToggle ? '#ff1744' : '#ffffff';
-    ctx.beginPath();
-    ctx.roundRect(-w/2 + 2, -h/2 + 2, w - 4, h - 4, 2);
-    ctx.fill();
-  }
-
   ctx.restore();
 }
 
-function drawFishSwarmDots(now) {
-  const elapsed = now - fishSwarmStartTime;
-  const alpha = 1.0 - (elapsed / 1500);
-  ctx.fillStyle = `rgba(0, 229, 255, ${alpha})`;
-  
-  for (let i=0; i<20; i++) {
-    const angle = (now / 200) + i * Math.PI*2/20;
-    const r = 100 * (1 - elapsed/1500);
-    const px = 250 + Math.cos(angle)*r;
-    const py = 250 + Math.sin(angle)*r;
-    ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
+// ==========================================
+// ADAPTIVE SIGNAL OVERLAY
+// ==========================================
+function drawAdaptiveOverlay(frame) {
+  if (!frame || !frame.lanes) return;
+  const lanes = frame.lanes;
+  const phase = frame.phase || 'NS';
+  const isGreen = d => phase === 'NS' ? (d==='N'||d==='S') : (d==='E'||d==='W');
+
+  // ── Queue bars on each approach arm ─────────────────────────
+  // Format: bx,by = top-left of bar rect; bw,bh = dimensions; flipFill = fill from far end
+  const bars = {
+    N: {bx:202, by:36,  bw:26, bh:158, vert:true,  flip:false},
+    S: {bx:272, by:306, bw:26, bh:158, vert:true,  flip:true },
+    E: {bx:306, by:202, bw:158,bh:26,  vert:false, flip:true },
+    W: {bx:36,  by:272, bw:158,bh:26,  vert:false, flip:false},
+  };
+
+  ['N','S','E','W'].forEach(dir => {
+    const info = lanes[dir] || {};
+    const cfg  = bars[dir];
+    const cnt  = info.count || 0;
+    const emg  = info.emergency;
+    const grn  = isGreen(dir);
+    const ratio = Math.min(1, cnt / 22);
+
+    const col = emg ? '#ff1744' : (grn ? '#00e676' : (ratio > 0.65 ? '#ff6d00' : '#2979ff'));
+
+    // Background
+    ctx.fillStyle = 'rgba(0,0,0,0.28)';
+    ctx.beginPath(); ctx.roundRect(cfg.bx, cfg.by, cfg.bw, cfg.bh, 3); ctx.fill();
+
+    // Fill proportional to queue
+    ctx.fillStyle = col + 'bb';
+    if (cfg.vert) {
+      const fh   = ratio * cfg.bh;
+      const fillY = cfg.flip ? cfg.by : cfg.by + cfg.bh - fh;
+      ctx.beginPath(); ctx.roundRect(cfg.bx, fillY, cfg.bw, fh, 3); ctx.fill();
+    } else {
+      const fw   = ratio * cfg.bw;
+      const fillX = cfg.flip ? cfg.bx + cfg.bw - fw : cfg.bx;
+      ctx.beginPath(); ctx.roundRect(fillX, cfg.by, fw, cfg.bh, 3); ctx.fill();
+    }
+
+    // Count label
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 10px Inter,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(cnt, cfg.bx + cfg.bw/2, cfg.by + cfg.bh/2 + 4);
+
+    // Direction label
+    ctx.font = 'bold 9px Inter,sans-serif';
+    ctx.fillStyle = emg ? '#ff5252' : (grn ? '#00e676' : '#8080bb');
+    if (cfg.vert) {
+      ctx.fillText(dir, cfg.bx + cfg.bw/2, cfg.by - 5);
+    } else {
+      const labelX = dir === 'W' ? cfg.bx - 10 : cfg.bx + cfg.bw + 10;
+      ctx.fillText(dir, labelX, cfg.by + cfg.bh/2 + 4);
+    }
+    ctx.textAlign = 'left';
+
+    // Emergency siren icon
+    if (emg) {
+      ctx.font = '12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🚑', cfg.bx + cfg.bw/2, cfg.by + cfg.bh/2 - 8);
+      ctx.textAlign = 'left';
+    }
+  });
+
+  // ── AI Decision Banner (top strip) ──────────────────────────
+  const algo      = frame.algorithm || 'Q_LEARNING';
+  const action    = frame.action    || '';
+  const greenDirs = phase === 'NS' ? 'N↕S' : 'E↔W';
+  const emergLanes = ['N','S','E','W'].filter(d => lanes[d]?.emergency);
+
+  // Priority score per lane (count + wait-time bonus + emergency bonus)
+  const score = d => (lanes[d]?.count||0)*10 + (lanes[d]?.wait||0)*0.4 + (lanes[d]?.emergency ? 200 : 0);
+  const nsScore = score('N') + score('S');
+  const ewScore = score('E') + score('W');
+  const pressureLabel = Math.abs(nsScore - ewScore) < 8 ? 'balanced'
+    : (nsScore > ewScore ? '▲ N/S pressure' : '▲ E/W pressure');
+
+  let bannerText, bannerCol;
+  if (emergLanes.length > 0) {
+    bannerText = `🚑 EMERGENCY [${emergLanes.join(',')}] → immediate override`;
+    bannerCol  = '#ff5252';
+  } else if (action === 'SWITCH_PHASE') {
+    bannerText = `⚡ AI SWITCH → ${greenDirs} green  |  ${pressureLabel}`;
+    bannerCol  = '#ffd600';
+  } else {
+    const nCnt = lanes.N?.count||0, sCnt = lanes.S?.count||0,
+          eCnt = lanes.E?.count||0, wCnt = lanes.W?.count||0;
+    bannerText = `✓ HOLD ${greenDirs}  |  N:${nCnt} S:${sCnt} E:${eCnt} W:${wCnt}  |  ${pressureLabel}  [${algo}]`;
+    bannerCol  = '#00e5ff';
   }
+
+  ctx.fillStyle = 'rgba(0,0,0,0.75)';
+  ctx.fillRect(0, 0, 500, 22);
+  ctx.fillStyle = bannerCol;
+  ctx.font = '10px "Fira Code",monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText(bannerText.substring(0, 76), 6, 14);
+  ctx.textAlign = 'left';
+
+  // ── Phase countdown arc (center of intersection) ────────────
+  const phaseTimer = frame.phase_timer || 0;
+  const maxTimer   = 30; // seconds max display
+  const arcFrac    = Math.min(1, phaseTimer / maxTimer);
+  const cx = 250, cy = 250, r = 14;
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + 2*Math.PI*arcFrac);
+  ctx.strokeStyle = isGreen('N') ? '#00e676' : '#ff1744';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(0,0,0,0.55)';
+  ctx.beginPath(); ctx.arc(cx, cy, r - 3, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 9px Inter,sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${phaseTimer}s`, cx, cy + 3);
+  ctx.textAlign = 'left';
 }
+
+
 
 // ==========================================
 // UI Updates

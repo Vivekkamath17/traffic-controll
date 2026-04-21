@@ -739,6 +739,27 @@ h2 {
 .btn.active {
   background: var(--blue);
   color: white;
+  box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.45);
+}
+
+/* Primary (Start) button active — darken slightly to indicate running */
+.btn.primary.active {
+  background: #00c853;
+  color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.45);
+}
+
+/* Warning (Pause) button active = paused state */
+.btn.warning.active {
+  background: #ffab00;
+  color: #000;
+  box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.45);
+  animation: pulse-warning 0.9s ease infinite alternate;
+}
+
+@keyframes pulse-warning {
+  from { box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.45); }
+  to   { box-shadow: 0 0 0 6px rgba(255, 214, 0, 0.15); }
 }
 
 /* Header nav links (Dashboard/Event Log) */
